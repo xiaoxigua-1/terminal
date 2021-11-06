@@ -1,5 +1,3 @@
-import './App.css';
-
 /**
  * @return {JSX.Element}
  */
