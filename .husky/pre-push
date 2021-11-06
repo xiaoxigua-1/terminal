@@ -1,0 +1,17 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+
+npm run build
+giturl=$(git remote get-url origin)
+echo "$giturl"
+cd dist
+git init
+git status
+git remote add gh-pages $giturl
+git checkout -b gh-pages
+git add --all
+git commit -m "build"
+git push --set-upstream gh-pages gh-pages -f
+cd ..
+rm -r dist
