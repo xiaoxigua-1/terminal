@@ -1,0 +1,32 @@
+env:
+  browser: true
+  es2021: true
+extends:
+  - plugin:react/recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:@typescript-eslint/eslint-recommended
+  - airbnb
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 13
+  sourceType: module
+plugins:
+  - react
+  - '@typescript-eslint'
+rules: {
+  "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }]
+}
+globals: {
+  React: true,
+  google: true,
+  mount: true,
+  mountWithRouter: true,
+  shallow: true,
+  shallowWithRouter: true,
+  context: true,
+  expect: true,
+  jsdom: true,
+  JSX: true,
+}
