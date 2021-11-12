@@ -1,4 +1,5 @@
 import { Command } from './Command';
+import { CommandReturnInfo } from './CommandReturnInfo';
 
 class CommandManager {
   private commands: Command[];
@@ -11,12 +12,21 @@ class CommandManager {
     this.commands.push(command);
   }
 
-  runCommand(name: string, args: string): string {
+  runCommand(args: string, inputPath: string): CommandReturnInfo {
+    const argsArray = args.split(' ');
+    const name = argsArray[0];
     const searchCommand = this.commands.find((command) => command.name === name);
+
+    argsArray.splice(0, 1);
+
     if (searchCommand === undefined) {
-      return '';
+      return {
+        output: `command ${name} not found`,
+        path: inputPath,
+      };
     }
-    return searchCommand.run(args.split(' '));
+
+    return searchCommand.run(argsArray, inputPath);
   }
 }
 
