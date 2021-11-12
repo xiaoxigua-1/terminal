@@ -16,7 +16,8 @@ plugins:
   - react
   - '@typescript-eslint'
 rules: {
-  "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }]
+  "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
+  "import/extensions": [0, "ignorePackages"]
 }
 globals: {
   React: true,
@@ -30,3 +31,9 @@ globals: {
   jsdom: true,
   JSX: true,
 }
+settings:
+  import/resolver: {
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        },
+      }
