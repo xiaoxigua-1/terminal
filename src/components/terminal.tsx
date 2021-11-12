@@ -81,9 +81,9 @@ function Terminal(): JSX.Element {
           }
         }}
       />
-      {consoleList.map((value) => (
+      {consoleList.map((value, index) => (
         <Console
-          key={value.toString()}
+          key={index.toString()}
           userInput={value.userInput}
           output={value.output}
           path={value.path}
