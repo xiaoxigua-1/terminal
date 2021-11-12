@@ -5,7 +5,7 @@ import Terminal from './components/terminal';
  */
 function App(): JSX.Element {
   return (
-    <div className="h-full w-full overflow-x-hidden">
+    <div id="App" className="h-full w-full overflow-x-hidden">
       <Terminal />
     </div>
   );

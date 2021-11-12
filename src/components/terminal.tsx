@@ -1,4 +1,9 @@
-import { ChangeEvent, useState, KeyboardEvent } from 'react';
+import {
+  ChangeEvent,
+  useState,
+  KeyboardEvent,
+  useEffect,
+} from 'react';
 import Console, { ConsoleProp } from './console';
 
 /**
@@ -8,8 +13,19 @@ function Terminal(): JSX.Element {
   const [userInputString, setUserInputString] = useState('');
   const [consoleList, setConsoleList] = useState<ConsoleProp[]>([]);
 
+  useEffect(() => {
+    const app = document.getElementById('App');
+    app?.scrollTo(0, app.scrollHeight);
+  });
+
   return (
-    <div className="w-screen min-h-full bg-black scr">
+    <div
+      className="w-screen min-h-full bg-black scr"
+      aria-hidden="true"
+      onClick={() => {
+        document.getElementById('userInput')?.focus();
+      }}
+    >
       <input
         id="userInput"
         type="text"
@@ -23,7 +39,7 @@ function Terminal(): JSX.Element {
             const cloneData = [...consoleList];
 
             cloneData.push(
-              { userInput: userInputString, output: 'asd' },
+              { userInput: userInputString, output: '' },
             );
             setConsoleList(cloneData);
             setUserInputString('');
@@ -33,16 +49,8 @@ function Terminal(): JSX.Element {
       {consoleList.map((value) => (
         <Console userInput={value.userInput} output={value.output} />
       ))}
-      <div
-        className="text-white z-10"
-        aria-hidden="true"
-        onClick={() => {
-          document.getElementById('userInput')?.focus();
-        }}
-      >
-        <span className="text-green-600">xiaoxigua@xiaoxigua: </span>
-        {userInputString}
-      </div>
+      <span className="text-green-600">xiaoxigua@xiaoxigua:</span>
+      <span className="pl-2 text-white animate-caret border-r-8 border-white">{userInputString}</span>
     </div>
   );
 }
