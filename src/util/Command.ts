@@ -10,6 +10,6 @@ export abstract class Command {
   }
 
   public run(args: string[]): string {
-    return args.join('');
+    return `${this.name} run fuck you ${args.join('')}`;
   }
 }

@@ -36,6 +36,11 @@ function Terminal(): JSX.Element {
         }}
         onKeyDown={(e: KeyboardEvent) => {
           if (e.key === 'Enter') {
+            if (userInputString === 'clear') {
+              setConsoleList([]);
+              setUserInputString('');
+              return;
+            }
             const cloneData = [...consoleList];
 
             cloneData.push(
