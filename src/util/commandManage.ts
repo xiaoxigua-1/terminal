@@ -1,5 +1,6 @@
 import { Command } from './Command';
 import { CommandReturnInfo } from './CommandReturnInfo';
+import NotFound from '../components/notFound';
 
 class CommandManager {
   private commands: Command[];
@@ -21,7 +22,7 @@ class CommandManager {
 
     if (searchCommand === undefined) {
       return {
-        output: `command ${name} not found`,
+        output: NotFound(name),
         path: inputPath,
       };
     }

@@ -1,4 +1,4 @@
 export interface CommandReturnInfo {
   path: string;
-  output: string;
+  output: string | JSX.Element;
 }

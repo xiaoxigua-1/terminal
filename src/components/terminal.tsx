@@ -45,13 +45,23 @@ function Terminal(): JSX.Element {
         }}
         onKeyDown={(e: KeyboardEvent) => {
           if (e.key === 'Enter') {
-            if (userInputString === 'clear') {
-              setConsoleList([]);
-              setUserInputString('');
-              return;
-            }
             const cloneData = [...consoleList];
-            const commandReturnInfo = commandManager.runCommand(userInputString, path);
+            let commandReturnInfo = commandManager.runCommand(userInputString, path);
+            switch (userInputString) {
+              case 'clear':
+                setConsoleList([]);
+                setUserInputString('');
+                return;
+              case '':
+                commandReturnInfo = {
+                  output: '',
+                  path,
+                };
+                break;
+              default:
+                commandReturnInfo = commandManager.runCommand(userInputString, path);
+                break;
+            }
             cloneData.push(
               {
                 userInput: userInputString,
@@ -59,14 +69,19 @@ function Terminal(): JSX.Element {
                 path: commandReturnInfo.path,
               },
             );
-            setPath('~');
+            setPath(commandReturnInfo.path);
             setConsoleList(cloneData);
             setUserInputString('');
           }
         }}
       />
       {consoleList.map((value) => (
-        <Console userInput={value.userInput} output={value.output} path={value.path} />
+        <Console
+          key={value.userInput}
+          userInput={value.userInput}
+          output={value.output}
+          path={value.path}
+        />
       ))}
       <span className="text-green-600">xiaoxigua@xiaoxigua:</span>
       <span className="text-blue-500">{path}</span>

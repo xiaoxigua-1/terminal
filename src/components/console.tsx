@@ -1,7 +1,7 @@
 export interface ConsoleProp {
   userInput: string;
   path: string;
-  output: string;
+  output: string | JSX.Element;
 }
 
 /**
