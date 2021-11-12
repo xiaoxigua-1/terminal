@@ -1,6 +1,7 @@
-import { Command } from './Command';
+import Command from './Command';
 import { CommandReturnInfo } from './CommandReturnInfo';
 import NotFound from '../components/notFound';
+import Help from '../components/help';
 
 class CommandManager {
   private commands: Command[];
@@ -28,6 +29,15 @@ class CommandManager {
     }
 
     return searchCommand.run(argsArray, inputPath);
+  }
+
+  helpCommand(path: string): JSX.Element {
+    const cloneCommands: Command[] = [...this.commands];
+    cloneCommands.map((value: Command) => ({
+      output: value.info,
+      path,
+    }));
+    return Help(cloneCommands);
   }
 }
 

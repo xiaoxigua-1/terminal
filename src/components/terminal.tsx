@@ -52,6 +52,12 @@ function Terminal(): JSX.Element {
                 setConsoleList([]);
                 setUserInputString('');
                 return;
+              case 'help':
+                commandReturnInfo = {
+                  output: commandManager.helpCommand(path),
+                  path,
+                };
+                break;
               case '':
                 commandReturnInfo = {
                   output: '',
@@ -77,7 +83,7 @@ function Terminal(): JSX.Element {
       />
       {consoleList.map((value) => (
         <Console
-          key={value.userInput}
+          key={value.toString()}
           userInput={value.userInput}
           output={value.output}
           path={value.path}

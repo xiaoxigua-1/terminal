@@ -17,7 +17,8 @@ plugins:
   - '@typescript-eslint'
 rules: {
   "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
-  "import/extensions": [0, "ignorePackages"]
+  "import/extensions": [0, "ignorePackages"],
+  "no-underscore-dangle": 0
 }
 globals: {
   React: true,
