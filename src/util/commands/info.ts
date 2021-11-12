@@ -14,6 +14,6 @@ export default class InfoCommand extends Command {
   }
 
   help() {
-    return `${this.info}`;
+    return `${this.info} 殺洨`;
   }
 }

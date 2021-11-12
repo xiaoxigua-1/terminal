@@ -7,6 +7,7 @@ import {
 import Console, { ConsoleProp } from './console';
 import initCommands from '../util/initCommands';
 import CommandManager from '../util/commandManage';
+import { CommandReturnInfo } from '../util/CommandReturnInfo';
 
 const commandManager = new CommandManager();
 /**
@@ -46,18 +47,12 @@ function Terminal(): JSX.Element {
         onKeyDown={(e: KeyboardEvent) => {
           if (e.key === 'Enter') {
             const cloneData = [...consoleList];
-            let commandReturnInfo = commandManager.runCommand(userInputString, path);
+            let commandReturnInfo: CommandReturnInfo;
             switch (userInputString) {
               case 'clear':
                 setConsoleList([]);
                 setUserInputString('');
                 return;
-              case 'help':
-                commandReturnInfo = {
-                  output: commandManager.helpCommand(path),
-                  path,
-                };
-                break;
               case '':
                 commandReturnInfo = {
                   output: '',

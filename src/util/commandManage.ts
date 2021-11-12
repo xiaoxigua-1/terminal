@@ -18,8 +18,14 @@ class CommandManager {
     const argsArray = args.split(' ');
     const name = argsArray[0];
     const searchCommand = this.commands.find((command) => command.name === name);
-
     argsArray.splice(0, 1);
+
+    if (name === 'help') {
+      return {
+        output: this.helpCommand(argsArray),
+        path: inputPath,
+      };
+    }
 
     if (searchCommand === undefined) {
       return {
@@ -31,13 +37,17 @@ class CommandManager {
     return searchCommand.run(argsArray, inputPath);
   }
 
-  helpCommand(path: string): JSX.Element {
-    const cloneCommands: Command[] = [...this.commands];
-    cloneCommands.map((value: Command) => ({
-      output: value.info,
-      path,
-    }));
-    return Help(cloneCommands);
+  helpCommand(args: string[]): JSX.Element | string {
+    const commandName = args[0];
+
+    if (commandName === undefined) {
+      return Help(this.commands);
+    }
+    const searchCommand = this.commands.find((command) => command.name === commandName);
+
+    if (searchCommand === undefined) return NotFound(commandName);
+
+    return searchCommand.help();
   }
 }
 
