@@ -39,7 +39,7 @@ function Terminal(): JSX.Element {
       <input
         id="userInput"
         type="text"
-        className="opacity-0 absolute z-0"
+        className="opacity-0 absolute z-0 w-0 h-0"
         value={userInputString}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
           setUserInputString(event.target.value);
