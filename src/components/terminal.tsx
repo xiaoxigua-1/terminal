@@ -38,7 +38,6 @@ function Terminal(): JSX.Element {
     >
       <input
         id="userInput"
-        type="text"
         className="opacity-0 absolute z-0 w-0 h-0"
         value={userInputString}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -48,12 +47,12 @@ function Terminal(): JSX.Element {
           if (e.key === 'Enter') {
             const cloneData = [...consoleList];
             let commandReturnInfo: CommandReturnInfo;
-            switch (userInputString) {
-              case 'clear':
+            switch (true) {
+              case userInputString.split(' ')[0] === 'clear':
                 setConsoleList([]);
                 setUserInputString('');
                 return;
-              case '':
+              case userInputString === '':
                 commandReturnInfo = {
                   output: '',
                   path,
@@ -86,7 +85,9 @@ function Terminal(): JSX.Element {
       ))}
       <span className="text-green-600">xiaoxigua@xiaoxigua:</span>
       <span className="text-blue-500">{path}</span>
-      <span className="pl-2 text-white animate-caret border-r-8 border-white">{userInputString}</span>
+      <span className="pl-2 text-white animate-caret border-r-8 border-white">
+        {userInputString.replaceAll(' ', '\u00a0')}
+      </span>
     </div>
   );
 }
