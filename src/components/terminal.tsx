@@ -22,6 +22,10 @@ function Terminal(): JSX.Element {
   const [consoleList, setConsoleList] = useState<ConsoleProp[]>([]);
   const [userInputLog, setUserInputLog] = useState<string[]>([]);
   const [userInputLogCount, setUserInputLogCount] = useState(-1);
+  const [userSelect, setUserSelect] = useState({
+    end: 0,
+    start: 0,
+  });
 
   useEffect(() => {
     const app = document.getElementById('App');
@@ -30,16 +34,17 @@ function Terminal(): JSX.Element {
 
   useEffect(() => {
     const input = userInputRef.current;
+    setUserInputString(userInputLog[userInputLogCount] ? userInputLog[userInputLogCount] : '');
     if (input !== null) {
       if (input.selectionEnd !== null) {
         input.selectionEnd = userInputString.length;
         input.selectionStart = userInputString.length;
+        setUserSelect({
+          end: userInputString.length,
+          start: userInputString.length,
+        });
       }
     }
-  }, [userInputString]);
-
-  useEffect(() => {
-    setUserInputString(userInputLog[userInputLogCount] ? userInputLog[userInputLogCount] : '');
   }, [userInputLogCount]);
 
   useEffect(() => {
@@ -67,8 +72,10 @@ function Terminal(): JSX.Element {
             if (!userInputLog.includes(userInputString) && userInputString !== '') {
               setUserInputLog([userInputString, ...userInputLog]);
             }
+
             const cloneData = [...consoleList];
             let commandReturnInfo: CommandReturnInfo;
+
             switch (true) {
               case userInputString.split(' ')[0] === 'clear':
                 setConsoleList([]);
@@ -84,6 +91,7 @@ function Terminal(): JSX.Element {
                 commandReturnInfo = commandManager.runCommand(userInputString, path);
                 break;
             }
+
             cloneData.push(
               {
                 userInput: userInputString,
@@ -102,6 +110,15 @@ function Terminal(): JSX.Element {
             setUserInputLogCount(userInputLogCount - 1);
           }
         }}
+        onSelect={() => {
+          if (userInputRef.current !== null) {
+            const input = userInputRef.current;
+            setUserSelect({
+              end: input.selectionEnd ? input.selectionEnd : 0,
+              start: input.selectionStart ? input.selectionStart : 0,
+            });
+          }
+        }}
       />
       {consoleList.map((value, index) => (
         <Console
@@ -113,9 +130,14 @@ function Terminal(): JSX.Element {
       ))}
       <span className="text-green-600">xiaoxigua@xiaoxigua:</span>
       <span className="text-blue-500">{path}</span>
-      <span className="pl-2 text-white relative">
-        {userInputString}
-        <span className="animate-caret bg-white w-2 h-4 inline-block" />
+      <span className="pl-2 text-white relative inline-block w-auto">
+        <span className="pl-2 text-white relative inline-block w-auto">{userInputString.slice(0, userSelect.start)}</span>
+        <span className="animate-caret bg-white w-auto min-w-2 inline-block bottom-0 text-black">
+          {userInputString.slice(userSelect.start, userSelect.end + 1) || '\u00a0'}
+        </span>
+        <span>
+          {userInputString.slice(userSelect.end + 1, userInputString.length)}
+        </span>
       </span>
     </div>
   );
