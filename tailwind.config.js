@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       keyframes: {
         caret: {
-          '50%': { borderColor: 'transparent' },
+          '50%': { background: 'transparent' },
         },
       },
       animation: {

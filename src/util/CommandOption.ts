@@ -58,7 +58,7 @@ export default class ComandOption {
   public get value() {
     const touchs = this.touch;
     const returnValue: string[] = [];
-    this._args.forEach((value, index) => (
+    this._args.map((value, index) => (
       touchs.indexOf(value) > -1 ? returnValue.push(this._args[index + 1]) : -1
     ));
 

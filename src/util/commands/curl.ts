@@ -9,7 +9,8 @@ export default class CurlCommand extends Command {
 
   run(args: string[], inputPath: string): CommandReturnInfo {
     const commandParser = new CommandParser(args);
-    console.log(commandParser.option('-X').value);
+    const method = commandParser.option('-X').value;
+    console.log(method);
     return {
       output: `hi this is ${this.name}`,
       path: inputPath,

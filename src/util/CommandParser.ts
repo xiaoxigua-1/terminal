@@ -1,4 +1,4 @@
-import ComandOption from './CommandParameter';
+import ComandOption from './CommandOption';
 
 export default class CommandParser {
   private _commandOptions: ComandOption[];
