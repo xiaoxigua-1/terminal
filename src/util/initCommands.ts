@@ -5,8 +5,12 @@ import ExitCommand from './commands/exit';
 export default function initCommands(
   commandsManager: CommandsManager,
 ): () => void {
-  commandsManager.addCommand(new InfoCommand());
-  commandsManager.addCommand(new ExitCommand());
+  const commands = [
+    new InfoCommand(),
+    new ExitCommand(),
+  ];
+
+  commands.map((value) => commandsManager.addCommand(value));
 
   return () => null;
 }
