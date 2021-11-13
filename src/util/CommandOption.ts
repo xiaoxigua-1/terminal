@@ -7,7 +7,7 @@ export default class ComandOption {
 
   private _aliass: string[] = [];
 
-  private _args: string[] = [];
+  private _value: string[] = [];
 
   constructor(name: string) {
     this._name = name;
@@ -38,10 +38,6 @@ export default class ComandOption {
     return this;
   }
 
-  public set args(args: string[]) {
-    this._args = args;
-  }
-
   public get touch() {
     return [this._name, ...this._aliass];
   }
@@ -55,13 +51,11 @@ export default class ComandOption {
     };
   }
 
-  public get value() {
-    const touchs = this.touch;
-    const returnValue: string[] = [];
-    this._args.map((value, index) => (
-      touchs.indexOf(value) > -1 ? returnValue.push(this._args[index + 1]) : -1
-    ));
+  public set value(values: string[]) {
+    this._value = values;
+  }
 
-    return returnValue;
+  public get value() {
+    return this._value;
   }
 }

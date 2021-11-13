@@ -69,7 +69,7 @@ function Terminal(): JSX.Element {
       ))}
       <input
         id="userInput"
-        className="opacity-0 left-60 absolute"
+        className="opacity-0 left-60 absolute pointer-events-none"
         value={userInputString}
         ref={userInputRef}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -128,7 +128,7 @@ function Terminal(): JSX.Element {
           }
         }}
       />
-      <div className="inline-block">
+      <div className="inline-block z-10">
         <span className="text-green-600">xiaoxigua@xiaoxigua:</span>
         <span className="text-blue-500">{path}</span>
         <span className="text-white relative inline-block w-auto">
