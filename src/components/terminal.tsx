@@ -53,15 +53,23 @@ function Terminal(): JSX.Element {
 
   return (
     <div
-      className="w-screen min-h-full bg-black scr"
+      className="w-screen min-h-full bg-black scr text-xl cursor-text"
       aria-hidden="true"
       onClick={() => {
         document.getElementById('userInput')?.focus();
       }}
     >
+      {consoleList.map((value, index) => (
+        <Console
+          key={index.toString()}
+          userInput={value.userInput}
+          output={value.output}
+          path={value.path}
+        />
+      ))}
       <input
         id="userInput"
-        className="opacity-0 absolute z-0 w-0 h-0"
+        className="opacity-0 left-60 absolute"
         value={userInputString}
         ref={userInputRef}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +85,7 @@ function Terminal(): JSX.Element {
             let commandReturnInfo: CommandReturnInfo;
 
             switch (true) {
-              case userInputString.split(' ')[0] === 'clear':
+              case userInputString.split('\u00a0')[0] === 'clear':
                 setConsoleList([]);
                 setUserInputString('');
                 return;
@@ -120,25 +128,19 @@ function Terminal(): JSX.Element {
           }
         }}
       />
-      {consoleList.map((value, index) => (
-        <Console
-          key={index.toString()}
-          userInput={value.userInput}
-          output={value.output}
-          path={value.path}
-        />
-      ))}
-      <span className="text-green-600">xiaoxigua@xiaoxigua:</span>
-      <span className="text-blue-500">{path}</span>
-      <span className="pl-2 text-white relative inline-block w-auto">
-        <span className="pl-2 text-white relative inline-block w-auto">{userInputString.slice(0, userSelect.start)}</span>
-        <span className="animate-caret bg-white w-auto min-w-2 inline-block bottom-0 text-black">
-          {userInputString.slice(userSelect.start, userSelect.end + 1) || '\u00a0'}
+      <div className="inline-block">
+        <span className="text-green-600">xiaoxigua@xiaoxigua:</span>
+        <span className="text-blue-500">{path}</span>
+        <span className="text-white relative inline-block w-auto">
+          <span className="pl-2 text-white relative inline-block w-auto">{userInputString.slice(0, userSelect.start)}</span>
+          <span className="animate-caret bg-white w-auto min-w-2 inline-block bottom-0 text-black">
+            {userInputString.slice(userSelect.start, userSelect.end + 1) || '\u00a0'}
+          </span>
+          <span>
+            {userInputString.slice(userSelect.end + 1, userInputString.length)}
+          </span>
         </span>
-        <span>
-          {userInputString.slice(userSelect.end + 1, userInputString.length)}
-        </span>
-      </span>
+      </div>
     </div>
   );
 }

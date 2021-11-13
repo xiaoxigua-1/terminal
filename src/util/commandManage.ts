@@ -15,7 +15,7 @@ class CommandManager {
   }
 
   runCommand(args: string, inputPath: string): CommandReturnInfo {
-    const argsArray = args.split(' ');
+    const argsArray = args.split('\u00a0');
     const name = argsArray[0];
     const searchCommand = this.commands.find((command) => command.name === name);
     argsArray.splice(0, 1);
