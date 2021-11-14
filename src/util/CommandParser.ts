@@ -3,11 +3,10 @@ import ComandOption from './CommandOption';
 export default class CommandParser {
   private _commandOptions: ComandOption[];
 
-  private _args: string[];
+  private _args: string[] = [];
 
-  constructor(args: string[]) {
+  constructor() {
     this._commandOptions = [];
-    this._args = args;
   }
 
   option(optionName: string) {
@@ -24,5 +23,9 @@ export default class CommandParser {
     this._commandOptions.push(commandOption);
 
     return commandOption;
+  }
+
+  public set args(args: string[]) {
+    this._args = args;
   }
 }

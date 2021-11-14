@@ -1,6 +1,5 @@
 import Command from '../Command';
 import { CommandReturnInfo } from '../CommandReturnInfo';
-import CommandParser from '../CommandParser';
 
 export default class CurlCommand extends Command {
   constructor() {
@@ -8,16 +7,12 @@ export default class CurlCommand extends Command {
   }
 
   run(args: string[], inputPath: string): CommandReturnInfo {
-    const commandParser = new CommandParser(args);
-    const method = commandParser.option('-X').value;
+    this._commandParser.args = args;
+    const method = this._commandParser.option('-X').value;
     console.log(this.name);
     return {
       output: `method is ${method}`,
       path: inputPath,
     };
-  }
-
-  help() {
-    return `${this.info} 殺洨`;
   }
 }

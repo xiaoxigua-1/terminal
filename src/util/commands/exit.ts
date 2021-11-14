@@ -13,8 +13,4 @@ export default class ExitCommand extends Command {
       path: inputPath,
     };
   }
-
-  help() {
-    return `${this.name} exit tab`;
-  }
 }

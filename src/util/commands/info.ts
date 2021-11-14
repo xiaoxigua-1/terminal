@@ -12,8 +12,4 @@ export default class InfoCommand extends Command {
       path: inputPath,
     };
   }
-
-  help() {
-    return `${this.info} 殺洨`;
-  }
 }
