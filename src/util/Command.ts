@@ -26,8 +26,13 @@ export default abstract class Command {
     this._commandParser.args = args;
     const help = this._commandParser.option('help').alias('-h').tag().value;
     if (help) {
+      const helpText = `Usage: ${this._name} ${this._info}
+      ${this._commandParser.commandOptions.map((value) => (
+    `\u00a0\u00a0\u00a0\u00a0${value.helpData.name} ${value.helpData.type} ${value.helpData.help}`
+  ))}
+      `;
       return {
-        output: '',
+        output: helpText,
         path: inputPath,
       };
     }

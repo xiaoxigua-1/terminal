@@ -3,12 +3,7 @@ import { CommandReturnInfo } from '../CommandReturnInfo';
 
 export default class CurlCommand extends Command {
   constructor() {
-    super(`asd
-    asdasd
-    asd
-    asd
-    asd
-    `, 'curl');
+    super('curl [options...] <url>', 'curl');
   }
 
   run(args: string[], inputPath: string): CommandReturnInfo {

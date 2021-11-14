@@ -25,4 +25,8 @@ export default class CommandParser {
   public get used() {
     return this._commandOptions.map((value) => value.used);
   }
+
+  public get commandOptions() {
+    return this._commandOptions;
+  }
 }
