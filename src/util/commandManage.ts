@@ -34,7 +34,7 @@ class CommandManager {
       };
     }
 
-    return searchCommand.run(argsArray, inputPath);
+    return searchCommand.init(argsArray, inputPath);
   }
 
   helpCommand(args: string[]): JSX.Element | string {

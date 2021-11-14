@@ -17,7 +17,21 @@ export default abstract class Command {
   abstract run(args: string[], inputPath: string): CommandReturnInfo
 
   help(): string | JSX.Element {
-    return this._name;
+    return `${this._name}: ${this._info.split('\n').map(
+      (value, index) => (index !== 0 ? `\u00a0\u00a0\u00a0\u00a0${value}` : value),
+    ).join('\n')}`;
+  }
+
+  init(args: string[], inputPath: string): CommandReturnInfo {
+    this._commandParser.args = args;
+    const help = this._commandParser.option('help').alias('-h').tag().value;
+    if (help) {
+      return {
+        output: '',
+        path: inputPath,
+      };
+    }
+    return this.run(args, inputPath);
   }
 
   public get name() {

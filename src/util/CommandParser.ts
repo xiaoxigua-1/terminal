@@ -10,15 +10,8 @@ export default class CommandParser {
   }
 
   option(optionName: string) {
-    const commandOption = new ComandOption(optionName);
-    const touchs = commandOption.touch;
-    const values: string[] = [];
-
-    const dels = this._args.map((value, index) => (
-      touchs.indexOf(value) > -1 ? values.push(this._args[index + 1]) : -1
-    ));
-    dels.map((value) => (value === -1));
-    commandOption.value = values;
+    const commandOption = new ComandOption(`--${optionName}`);
+    commandOption.args = this._args;
 
     this._commandOptions.push(commandOption);
 
@@ -27,5 +20,9 @@ export default class CommandParser {
 
   public set args(args: string[]) {
     this._args = args;
+  }
+
+  public get used() {
+    return this._commandOptions.map((value) => value.used);
   }
 }

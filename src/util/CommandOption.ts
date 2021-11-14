@@ -7,7 +7,9 @@ export default class ComandOption {
 
   private _aliass: string[] = [];
 
-  private _value: string[] = [];
+  private _args: string[] = [];
+
+  private _used: number[] = [];
 
   constructor(name: string) {
     this._name = name;
@@ -33,7 +35,12 @@ export default class ComandOption {
     return this;
   }
 
-  alias(aliass: string[]) {
+  tag() {
+    this._type = 'TAG';
+    return this;
+  }
+
+  alias(...aliass: string[]) {
     this._aliass = aliass;
     return this;
   }
@@ -51,11 +58,21 @@ export default class ComandOption {
     };
   }
 
-  public set value(values: string[]) {
-    this._value = values;
+  public get value() {
+    const touchs = this.touch;
+    const values: string[] = [];
+    const dels = this._args.map((value, index) => (
+      touchs.includes(value) ? values.push(this._args[index + 1]) : -1
+    ));
+    dels.map((value, index) => (value !== -1 ? this._used.push(index) : 0));
+    return this._type === 'TAG' ? Boolean(values.length) : values;
   }
 
-  public get value() {
-    return this._value;
+  public get used() {
+    return this._used;
+  }
+
+  public set args(args: string[]) {
+    this._args = args;
   }
 }

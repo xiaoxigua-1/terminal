@@ -10,7 +10,7 @@ function App(): JSX.Element {
   });
 
   return (
-    <div id="App" className="h-full w-full overflow-x-hidden">
+    <div id="App" className="min-h-screen h-auto">
       <Terminal />
     </div>
   );

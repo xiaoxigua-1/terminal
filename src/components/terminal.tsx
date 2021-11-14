@@ -28,8 +28,8 @@ function Terminal(): JSX.Element {
   });
 
   useEffect(() => {
-    const app = document.getElementById('App');
-    app?.scrollTo(0, app.scrollHeight);
+    const app = window;
+    app?.scrollTo(0, document.body.scrollHeight);
   });
 
   useEffect(() => {
@@ -53,7 +53,7 @@ function Terminal(): JSX.Element {
 
   return (
     <div
-      className="w-screen min-h-full bg-black scr text-xl cursor-text"
+      className="w-full min-h-screen bg-black scr text-xl cursor-text"
       aria-hidden="true"
       onClick={() => {
         document.getElementById('userInput')?.focus();
@@ -128,15 +128,15 @@ function Terminal(): JSX.Element {
           }
         }}
       />
-      <div className="inline-block z-10">
-        <span className="text-green-600">xiaoxigua@xiaoxigua:</span>
-        <span className="text-blue-500">{path}</span>
-        <span className="text-white relative inline-block w-auto">
-          <span className="pl-2 text-white relative inline-block w-auto">{userInputString.slice(0, userSelect.start)}</span>
-          <span className="animate-caret bg-white w-auto min-w-2 inline-block bottom-0 text-black">
+      <div className="z-10">
+        <span className="text-green-600 break-all">xiaoxigua@xiaoxigua:</span>
+        <span className="text-blue-500 break-all">{path}</span>
+        <span className="text-white relative inline-block w-auto break-all">
+          <span className="pl-2 text-white relative inline-block w-auto break-all whitespace-pre-line">{userInputString.slice(0, userSelect.start)}</span>
+          <span className="animate-caret bg-white w-auto min-w-2 inline-block bottom-0 text-black whitespace-pre-line">
             {userInputString.slice(userSelect.start, userSelect.end + 1) || '\u00a0'}
           </span>
-          <span>
+          <span className="whitespace-pre-line break-all">
             {userInputString.slice(userSelect.end + 1, userInputString.length)}
           </span>
         </span>
