@@ -64,7 +64,15 @@ export default class ComandOption {
     const dels = this._args.map((value, index) => (
       touchs.includes(value) ? values.push(this._args[index + 1]) : -1
     ));
-    dels.map((value, index) => (value !== -1 ? this._used.push(index) : 0));
+    dels.forEach((value, index) => {
+      if (value !== -1) {
+        if (this._type === 'TAG') {
+          this._used.push(index);
+        } else {
+          this._used.push(index, index + 1);
+        }
+      }
+    });
     return this._type === 'TAG' ? Boolean(values.length) : values;
   }
 
