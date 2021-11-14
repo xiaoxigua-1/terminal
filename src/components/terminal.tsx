@@ -69,7 +69,7 @@ function Terminal(): JSX.Element {
       ))}
       <input
         id="userInput"
-        className="opacity-0 left-60 absolute pointer-events-none"
+        className="opacity-0 left-60 fixed pointer-events-none"
         value={userInputString}
         ref={userInputRef}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
