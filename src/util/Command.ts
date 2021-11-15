@@ -1,7 +1,11 @@
-import { CommandReturnInfo } from './CommandReturnInfo';
+import { CommandReturnInfo } from './data/CommandReturnInfo';
 import CommandParser from './CommandParser';
 
-export default abstract class Command {
+interface CommandSetValue {
+  setValue: (_args: string[]) => void;
+}
+
+export default abstract class Command implements CommandSetValue {
   private _info = '';
 
   private _name = '';
@@ -13,8 +17,10 @@ export default abstract class Command {
     this._name = name;
   }
 
-  // eslint-disable-next-line no-unused-vars
-  abstract setValue(args: string[]): void
+  // eslint-disable-next-line class-methods-use-this
+  setValue(_args: string[]): void {
+    // do nothing.
+  }
 
   // eslint-disable-next-line no-unused-vars
   abstract run(args: string[], inputPath: string): CommandReturnInfo

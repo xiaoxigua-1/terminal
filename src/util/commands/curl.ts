@@ -1,5 +1,5 @@
 import Command from '../Command';
-import { CommandReturnInfo } from '../CommandReturnInfo';
+import { CommandReturnInfo } from '../data/CommandReturnInfo';
 
 export default class CurlCommand extends Command {
   private _method: string[] = [];

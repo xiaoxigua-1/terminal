@@ -8,7 +8,7 @@ import {
 import Console, { ConsoleProp } from './console';
 import initCommands from '../util/initCommands';
 import CommandManager from '../util/commandManage';
-import { CommandReturnInfo } from '../util/CommandReturnInfo';
+import { CommandReturnInfo } from '../util/data/CommandReturnInfo';
 
 const commandManager = new CommandManager();
 /**

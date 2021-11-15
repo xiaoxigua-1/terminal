@@ -1,5 +1,5 @@
 import Command from '../Command';
-import { CommandReturnEcho } from '../CommandReturnEcho';
+import { CommandReturnInfo } from '../data/CommandReturnInfo';
 
 export default class EchoCommand extends Command {
   private value: string[] = [];
@@ -8,14 +8,9 @@ export default class EchoCommand extends Command {
     super(':Echo [input string]', 'echo');
   }
 
-  setValue(args: string[]) {
-    console.log(args, this.name);
-    this.value = ['input string'];
-  }
-
-  run(args: string[], inputPath: string): CommandReturnEcho {
+  run(args: string[], inputPath: string): CommandReturnInfo {
     return {
-      output: `${this.value}`,
+      output: args.join(' '),
       path: inputPath,
     };
   }

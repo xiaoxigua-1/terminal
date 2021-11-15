@@ -1,5 +1,5 @@
 import Command from './Command';
-import { CommandReturnInfo } from './CommandReturnInfo';
+import { CommandReturnInfo } from './data/CommandReturnInfo';
 import NotFound from '../components/notFound';
 import Help from '../components/help';
 
