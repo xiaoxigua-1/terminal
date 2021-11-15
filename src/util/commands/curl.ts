@@ -10,7 +10,11 @@ export default class CurlCommand extends Command {
 
   setValue(args: string[]) {
     this._commandParser.args = args;
-    this._method = this._commandParser.option('request').alias('-X').value as string[];
+    this._method = this._commandParser
+      .option('request')
+      .alias('-X')
+      .default('GET')
+      .value as string[];
   }
 
   run(args: string[], inputPath: string): CommandReturnInfo {

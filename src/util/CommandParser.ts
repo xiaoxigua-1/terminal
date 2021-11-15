@@ -18,6 +18,10 @@ export default class CommandParser {
     return commandOption;
   }
 
+  clearCommandOptions() {
+    this._commandOptions = [];
+  }
+
   public set args(args: string[]) {
     this._args = args;
   }

@@ -35,17 +35,24 @@ export default abstract class Command implements CommandSetValue {
     this._commandParser.args = args;
     this.setValue(args);
     const help = this._commandParser.option('help').alias('-h').tag().value;
+
     if (help) {
       const helpText = `Usage: ${this._name} ${this._info}
       ${this._commandParser.commandOptions.map((value) => (
     `\u00a0\u00a0\u00a0\u00a0${value.helpData.name} ${value.helpData.type} ${value.helpData.help}`
   )).join('\n')}
       `;
+
+      this._commandParser.clearCommandOptions();
+
       return {
         output: helpText,
         path: inputPath,
       };
     }
+
+    this._commandParser.clearCommandOptions();
+
     return this.run(args, inputPath);
   }
 
