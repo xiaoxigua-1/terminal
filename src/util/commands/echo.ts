@@ -5,7 +5,7 @@ export default class EchoCommand extends Command {
   private value: string[] = [];
 
   constructor() {
-    super(':Echo [input string]', 'echo');
+    super('[args ...]', 'echo');
   }
 
   run(args: string[], inputPath: string): CommandReturnInfo {

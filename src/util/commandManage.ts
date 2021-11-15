@@ -43,6 +43,7 @@ class CommandManager {
     if (commandName === undefined) {
       return Help(this.commands);
     }
+
     const searchCommand = this.commands.find((command) => command.name === commandName);
 
     if (searchCommand === undefined) return NotFound(commandName);
@@ -75,8 +76,8 @@ class CommandManager {
           break;
       }
     }
+
     argsArray.push(str);
-    console.log(argsArray);
     return argsArray;
   }
 }

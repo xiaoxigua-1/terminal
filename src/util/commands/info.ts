@@ -3,7 +3,7 @@ import { CommandReturnInfo } from '../data/CommandReturnInfo';
 
 export default class InfoCommand extends Command {
   constructor() {
-    super(':Show terminal info', 'info');
+    super('[command]', 'info');
   }
 
   run(args: string[], inputPath: string): CommandReturnInfo {
