@@ -5,11 +5,10 @@ export default class EchoCommand extends Command {
   private value: string[] = [];
 
   constructor() {
-    super('[args ...]', 'echo');
+    super('echo', '[args ...]');
   }
 
   run(args: string[], inputPath: string): CommandReturnInfo {
-    console.log(args);
     return {
       output: args.join(' '),
       path: inputPath,

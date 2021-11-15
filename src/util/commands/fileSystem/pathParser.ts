@@ -1,3 +1,4 @@
-export default function pathParse(path: string): string[] {
+export default function pathParse(_path: string): string[] {
   // TODO:
+  return [''];
 }

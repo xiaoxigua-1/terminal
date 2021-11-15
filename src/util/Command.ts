@@ -12,7 +12,7 @@ export default abstract class Command implements CommandSetValue {
 
   protected _commandParser = new CommandParser();
 
-  constructor(info: string, name: string) {
+  constructor(name: string, info: string) {
     this._info = info;
     this._name = name;
   }

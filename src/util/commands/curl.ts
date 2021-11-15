@@ -5,7 +5,7 @@ export default class CurlCommand extends Command {
   private _method: string[] = [];
 
   constructor() {
-    super('[options...] <url>', 'curl');
+    super('curl', '[options...] <url>');
   }
 
   setValue(args: string[]) {
