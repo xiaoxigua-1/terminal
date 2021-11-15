@@ -11,6 +11,8 @@ export default class ComandOption {
 
   private _used: number[] = [];
 
+  private _defaultValue: string | null = null;
+
   constructor(name: string) {
     this._name = name;
   }
@@ -45,6 +47,11 @@ export default class ComandOption {
     return this;
   }
 
+  default(value: string) {
+    this._defaultValue = value;
+    return this;
+  }
+
   public get touch() {
     return [this._name, ...this._aliass];
   }
@@ -73,6 +80,11 @@ export default class ComandOption {
         }
       }
     });
+
+    if (this._defaultValue !== null && values.length > 0) {
+      values.push(this._defaultValue);
+    }
+
     return this._type === 'TAG' ? Boolean(values.length) : values;
   }
 
