@@ -9,6 +9,7 @@ export default class EchoCommand extends Command {
   }
 
   run(args: string[], inputPath: string): CommandReturnInfo {
+    console.log(args);
     return {
       output: args.join(' '),
       path: inputPath,

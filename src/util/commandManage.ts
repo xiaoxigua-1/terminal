@@ -55,21 +55,30 @@ class CommandManager {
     const argsArray: string[] = [];
     let str = '';
     let colon = false;
+    let backslash = false;
 
     // eslint-disable-next-line no-restricted-syntax
     for (const i of args) {
       switch (i) {
-        case '\u00a0':
+        case ' ':
           if (!colon) {
-            argsArray.push(str);
+            if (backslash) {
+              str += i;
+              backslash = false;
+              break;
+            }
+            argsArray.push(str.replaceAll(' ', '\u00a0'));
             str = '';
             break;
           }
-          str += '\u00a0';
+          str += i;
           break;
         case '\'':
         case '"':
-          colon = true;
+          colon = !colon;
+          break;
+        case '\\':
+          backslash = true;
           break;
         default:
           str += i;
@@ -77,7 +86,7 @@ class CommandManager {
       }
     }
 
-    argsArray.push(str);
+    argsArray.push(str.replaceAll(' ', '\u00a0'));
     return argsArray;
   }
 }
