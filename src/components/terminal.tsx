@@ -132,7 +132,7 @@ function Terminal(): JSX.Element {
         onSelect={select}
       />
       <div className="z-10">
-        <span className="text-green-600 break-all">xiaoxigua@xiaoxigua:</span>
+        <span className="text-green-600 break-all">xyz-studio@user:</span>
         <span className="text-blue-500 break-all">{path}</span>
         <span className="text-white relative inline-block w-auto break-all">
           <span className="pl-2 text-white relative inline-block w-auto break-all whitespace-pre-line">{userInputString.slice(0, userSelect.start)}</span>
