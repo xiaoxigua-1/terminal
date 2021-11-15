@@ -3,7 +3,7 @@ import { CommandReturnInfo } from '../CommandReturnInfo';
 
 export default class ExitCommand extends Command {
   constructor() {
-    super('exit tab', 'exit');
+    super(':exit tab', 'exit');
   }
 
   setValue(args: string[]) {
