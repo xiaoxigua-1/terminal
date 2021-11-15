@@ -14,6 +14,9 @@ export default abstract class Command {
   }
 
   // eslint-disable-next-line no-unused-vars
+  abstract setValue(args: string[]): void
+
+  // eslint-disable-next-line no-unused-vars
   abstract run(args: string[], inputPath: string): CommandReturnInfo
 
   help(): string | JSX.Element {
@@ -24,12 +27,13 @@ export default abstract class Command {
 
   init(args: string[], inputPath: string): CommandReturnInfo {
     this._commandParser.args = args;
+    this.setValue(args);
     const help = this._commandParser.option('help').alias('-h').tag().value;
     if (help) {
       const helpText = `Usage: ${this._name} ${this._info}
       ${this._commandParser.commandOptions.map((value) => (
     `\u00a0\u00a0\u00a0\u00a0${value.helpData.name} ${value.helpData.type} ${value.helpData.help}`
-  ))}
+  )).join('\n')}
       `;
       return {
         output: helpText,

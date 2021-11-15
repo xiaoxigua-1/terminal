@@ -51,6 +51,16 @@ function Terminal(): JSX.Element {
     initCommands(commandManager);
   }, []);
 
+  const select = () => {
+    if (userInputRef.current !== null) {
+      const input = userInputRef.current;
+      setUserSelect({
+        end: input.selectionEnd ? input.selectionEnd : 0,
+        start: input.selectionStart ? input.selectionStart : 0,
+      });
+    }
+  };
+
   return (
     <div
       className="w-full min-h-screen bg-black scr text-xl cursor-text"
@@ -74,6 +84,7 @@ function Terminal(): JSX.Element {
         ref={userInputRef}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
           setUserInputString(event.target.value.replaceAll(' ', '\u00a0'));
+          select();
         }}
         onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
           if (e.key === 'Enter') {
@@ -118,15 +129,7 @@ function Terminal(): JSX.Element {
             setUserInputLogCount(userInputLogCount - 1);
           }
         }}
-        onSelect={() => {
-          if (userInputRef.current !== null) {
-            const input = userInputRef.current;
-            setUserSelect({
-              end: input.selectionEnd ? input.selectionEnd : 0,
-              start: input.selectionStart ? input.selectionStart : 0,
-            });
-          }
-        }}
+        onSelect={select}
       />
       <div className="z-10">
         <span className="text-green-600 break-all">xiaoxigua@xiaoxigua:</span>
