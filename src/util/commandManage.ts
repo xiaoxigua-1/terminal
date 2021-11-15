@@ -15,7 +15,7 @@ class CommandManager {
   }
 
   runCommand(args: string, inputPath: string): CommandReturnInfo {
-    const argsArray = args.split('\u00a0');
+    const argsArray = this.stringSplit(args);
     const name = argsArray[0];
     const searchCommand = this.commands.find((command) => command.name === name);
     argsArray.splice(0, 1);
@@ -48,6 +48,36 @@ class CommandManager {
     if (searchCommand === undefined) return NotFound(commandName);
 
     return searchCommand.help();
+  }
+
+  private stringSplit(args: string) {
+    const argsArray: string[] = [];
+    let str = '';
+    let colon = false;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const i of args) {
+      switch (i) {
+        case '\u00a0':
+          if (!colon) {
+            argsArray.push(str);
+            str = '';
+            break;
+          }
+          str += '\u00a0';
+          break;
+        case '\'':
+        case '"':
+          colon = true;
+          break;
+        default:
+          str += i;
+          break;
+      }
+    }
+    argsArray.push(str);
+    console.log(argsArray);
+    return argsArray;
   }
 }
 
