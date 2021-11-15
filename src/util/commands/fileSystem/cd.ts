@@ -18,9 +18,13 @@ export default class CdCommand extends Command {
       if (directory === null) {
         output = `${this.name}: ${args[0]}: No such file or directory`;
       } else {
-        if (directory[0] === 'home' && directory[1] === 'xiaoxigua') {
-          outputPath = '~/';
-          directory.splice(0, 2);
+        if (directory[1] === 'home' && directory[2] === 'xiaoxigua') {
+          outputPath = `~${directory.length > 3 ? '/' : ''}`;
+          directory.splice(0, 3);
+        } else if (directory[1] === 'home') {
+          outputPath = '';
+        } else if (directory[0] === '') {
+          outputPath = '/';
         }
         outputPath += directory?.join('/');
       }

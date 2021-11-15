@@ -21,10 +21,12 @@ export default function pathParse(path: string, directory: string): string[] | n
   } else {
     // eslint-disable-next-line no-restricted-syntax
     for (const i of pathArray) {
-      const searchNode = start.searchNode(i) as Folder;
+      if (i !== '') {
+        const searchNode = start.searchNode(i) as Folder;
 
-      start = searchNode as Folder;
-      pathNodes.push(start);
+        start = searchNode as Folder;
+        pathNodes.push(start);
+      }
     }
 
     // eslint-disable-next-line no-restricted-syntax
@@ -44,6 +46,8 @@ export default function pathParse(path: string, directory: string): string[] | n
       }
     }
   }
-  pathNodes.splice(0, 1);
+  console.log(pathNodes);
+
+  // pathNodes.splice(0, 1);
   return pathNodes.map((node) => node.name);
 }
