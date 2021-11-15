@@ -8,10 +8,10 @@ export default class EchoCommand extends Command {
     super('echo', '[args ...]');
   }
 
-  run(args: string[], inputPath: string): CommandReturnInfo {
+  run(args: string[], path: string): CommandReturnInfo {
     return {
       output: args.join(' '),
-      path: inputPath,
+      path,
     };
   }
 }

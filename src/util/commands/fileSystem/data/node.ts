@@ -7,4 +7,12 @@ export default class Node {
     this._name = name;
     this._type = type;
   }
+
+  public get name(): string {
+    return this._name;
+  }
+
+  public get type(): string {
+    return this._type;
+  }
 }

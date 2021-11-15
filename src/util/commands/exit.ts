@@ -6,11 +6,11 @@ export default class ExitCommand extends Command {
     super('exit', 'exit tab');
   }
 
-  run(args: string[], inputPath: string): CommandReturnInfo {
+  run(args: string[], path: string): CommandReturnInfo {
     window.close();
     return {
       output: `${this.name}`,
-      path: inputPath,
+      path,
     };
   }
 }

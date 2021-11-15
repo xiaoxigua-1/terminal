@@ -115,7 +115,7 @@ function Terminal(): JSX.Element {
               {
                 userInput: userInputString,
                 output: commandReturnInfo.output,
-                path: commandReturnInfo.path,
+                path,
               },
             );
 

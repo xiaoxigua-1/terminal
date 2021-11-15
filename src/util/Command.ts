@@ -23,7 +23,7 @@ export default abstract class Command implements CommandSetValue {
   }
 
   // eslint-disable-next-line no-unused-vars
-  abstract run(args: string[], inputPath: string): CommandReturnInfo
+  abstract run(args: string[], path: string): CommandReturnInfo
 
   help(): string | JSX.Element {
     return `${this._name}: ${this._info.split('\n').map(

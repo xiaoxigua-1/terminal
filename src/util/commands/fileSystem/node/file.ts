@@ -8,4 +8,8 @@ export default class File extends Node {
     super(name, 'File');
     this._fileType = type;
   }
+
+  public get fileType(): string {
+    return this._fileType;
+  }
 }

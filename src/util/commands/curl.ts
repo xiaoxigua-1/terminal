@@ -17,10 +17,10 @@ export default class CurlCommand extends Command {
       .value as string[];
   }
 
-  run(args: string[], inputPath: string): CommandReturnInfo {
+  run(args: string[], path: string): CommandReturnInfo {
     return {
       output: `method is ${this._method}`,
-      path: inputPath,
+      path,
     };
   }
 }

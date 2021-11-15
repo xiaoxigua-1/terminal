@@ -8,10 +8,10 @@ export default class EchoCommand extends Command {
     super('whoami', 'Show user name');
   }
 
-  run(args: string[], inputPath: string): CommandReturnInfo {
+  run(args: string[], path: string): CommandReturnInfo {
     return {
       output: 'user',
-      path: inputPath,
+      path,
     };
   }
 }

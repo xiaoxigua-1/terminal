@@ -6,10 +6,10 @@ export default class InfoCommand extends Command {
     super('info', '[command]');
   }
 
-  run(args: string[], inputPath: string): CommandReturnInfo {
+  run(args: string[], path: string): CommandReturnInfo {
     return {
       output: `hi this is ${this.name}`,
-      path: inputPath,
+      path,
     };
   }
 }
