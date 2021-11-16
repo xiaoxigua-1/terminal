@@ -8,7 +8,7 @@ import CdCommand from './commands/fileSystem/cd';
 
 export default function initCommands(
   commandsManager: CommandsManager,
-): () => void {
+) {
   const commands = [
     new InfoCommand(),
     new ExitCommand(),
@@ -19,6 +19,4 @@ export default function initCommands(
   ];
 
   commands.map((value) => commandsManager.addCommand(value));
-
-  return () => null;
 }

@@ -1,11 +1,12 @@
 import fileTree from './tree';
 import Folder from './node/folder';
+import { PathData } from './data/returnPathData';
 
-export default function pathParse(path: string, directory: string): string[] | null {
+export default function pathParse(path: string, directory: string): PathData | null {
   let pathArray = path.split('/');
+  let start = fileTree;
   const directoryArray = directory.split('/');
   const pathNodes: Folder[] = [fileTree];
-  let start = fileTree;
 
   if (pathArray[0] === '~') {
     pathArray.splice(0, 1);
@@ -14,10 +15,12 @@ export default function pathParse(path: string, directory: string): string[] | n
 
   if (directoryArray[0] === '') {
     directoryArray.splice(0, 1);
-    pathNodes.push(start);
   } else if (directoryArray[0] === '~') {
-    start = (start.searchNode('home') as Folder).searchNode('xiaoxigua') as Folder;
+    start = start.searchNode('home') as Folder;
     pathNodes.push(start);
+    start = start.searchNode('xiaoxigua') as Folder;
+    pathNodes.push(start);
+    directoryArray.splice(0, 1);
   } else {
     // eslint-disable-next-line no-restricted-syntax
     for (const i of pathArray) {
@@ -28,26 +31,27 @@ export default function pathParse(path: string, directory: string): string[] | n
         pathNodes.push(start);
       }
     }
+  }
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const i of directoryArray) {
-      if (i === '..') {
-        pathNodes.splice(pathNodes.length - 1, 1);
-        start = pathNodes[pathNodes.length - 1];
-      } else if (i === '.' || i === '') {
-        // 窩不知爆
-      } else {
-        const searchNode = pathNodes[pathNodes.length - 1].searchNode(i);
-        if (searchNode === null) {
-          return null;
-        }
-        start = searchNode as Folder;
-        pathNodes.push(start);
+  // eslint-disable-next-line no-restricted-syntax
+  for (const i of directoryArray) {
+    if (i === '..') {
+      pathNodes.splice(pathNodes.length - 1, 1);
+      start = pathNodes[pathNodes.length - 1];
+    } else if (i !== '.' && i !== '') {
+      const searchNode = pathNodes[pathNodes.length - 1].searchNode(i);
+
+      if (searchNode === null) {
+        return null;
       }
+      start = searchNode as Folder;
+      pathNodes.push(start);
     }
   }
-  console.log(pathNodes);
 
   // pathNodes.splice(0, 1);
-  return pathNodes.map((node) => node.name);
+  return {
+    path: pathNodes.map((node) => node.name),
+    type: pathNodes[pathNodes.length - 1].type,
+  };
 }
