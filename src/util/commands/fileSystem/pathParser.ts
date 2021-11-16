@@ -36,7 +36,9 @@ export default function pathParse(path: string, directory: string): PathData | n
   // eslint-disable-next-line no-restricted-syntax
   for (const i of directoryArray) {
     if (i === '..') {
-      pathNodes.splice(pathNodes.length - 1, 1);
+      if (pathNodes.length > 1) {
+        pathNodes.splice(pathNodes.length - 1, 1);
+      }
       start = pathNodes[pathNodes.length - 1];
     } else if (i !== '.' && i !== '') {
       const searchNode = pathNodes[pathNodes.length - 1].searchNode(i);
