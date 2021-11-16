@@ -17,7 +17,7 @@ export default class CdCommand extends Command {
       const directory = pathParse(path, args[0]);
       if (directory === null) {
         output = `${this.name}: can't cd to ${args[0]}: Not a directory`;
-      } else if (directory.type !== 'directory') {
+      } else if (directory.type !== 'folder') {
         output = `${this.name}: ${args[0]}: No such directory`;
       } else {
         if (directory.path[1] === 'home' && directory.path[2] === 'xiaoxigua') {
