@@ -20,15 +20,16 @@ export default class CdCommand extends Command {
       } else if (directory.type !== 'folder') {
         output = `${this.name}: ${args[0]}: No such directory`;
       } else {
-        if (directory.path[1] === 'home' && directory.path[2] === 'xiaoxigua') {
+        if (directory.path[1]?.name === 'home' && directory.path[2]?.name === 'xiaoxigua') {
           outputPath = `~${directory.path.length > 3 ? '/' : ''}`;
           directory.path.splice(0, 3);
-        } else if (directory.path[1] === 'home') {
+        } else if (directory.path[1]?.name === 'home') {
           outputPath = '';
-        } else if (directory.path[0] === '') {
+        } else if (directory.path[0]?.name === '') {
           outputPath = '/';
         }
-        outputPath += directory.path?.join('/');
+
+        outputPath += directory.path.map((p) => p.name)?.join('/');
       }
     }
 

@@ -69,7 +69,11 @@ class CommandManager {
               backslash = false;
               break;
             }
-            argsArray.push(str.replaceAll(' ', '\u00a0'));
+
+            if (/\S/.test(str)) {
+              argsArray.push(str.replaceAll(' ', '\u00a0'));
+            }
+
             str = '';
             break;
           }
@@ -87,8 +91,10 @@ class CommandManager {
           break;
       }
     }
+    if (/\S/.test(str)) {
+      argsArray.push(str.replaceAll(' ', '\u00a0'));
+    }
 
-    argsArray.push(str.replaceAll(' ', '\u00a0'));
     return argsArray;
   }
 }

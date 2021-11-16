@@ -1,4 +1,6 @@
+import Node from './node';
+
 export interface PathData {
-  path: string[];
+  path: Node[];
   type: string;
 }

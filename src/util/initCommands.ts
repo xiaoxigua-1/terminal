@@ -5,6 +5,7 @@ import CurlCommand from './commands/curl';
 import EchoCommand from './commands/echo';
 import WhoamiCommand from './commands/whoami';
 import CdCommand from './commands/fileSystem/cd';
+import LsCommand from './commands/fileSystem/ls';
 
 export default function initCommands(
   commandsManager: CommandsManager,
@@ -16,6 +17,7 @@ export default function initCommands(
     new EchoCommand(),
     new WhoamiCommand(),
     new CdCommand(),
+    new LsCommand(),
   ];
 
   commands.map((value) => commandsManager.addCommand(value));
