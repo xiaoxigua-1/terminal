@@ -23,7 +23,7 @@ export default abstract class Command implements CommandSetValue {
   }
 
   // eslint-disable-next-line no-unused-vars
-  abstract run(args: string[], path: string): CommandReturnInfo
+  abstract run(args: string[], path: string): Promise<CommandReturnInfo>
 
   help(): string | JSX.Element {
     return `${this._name}: ${this._info.split('\n').map(
@@ -31,7 +31,7 @@ export default abstract class Command implements CommandSetValue {
     ).join('\n')}`;
   }
 
-  init(args: string[], inputPath: string): CommandReturnInfo {
+  async init(args: string[], inputPath: string): Promise<CommandReturnInfo> {
     this._commandParser.args = args;
     this.setValue(args);
     const help = this._commandParser.option('help').alias('-h').tag().value;
@@ -52,8 +52,8 @@ export default abstract class Command implements CommandSetValue {
     }
 
     this._commandParser.clearCommandOptions();
-
-    return this.run(args, inputPath);
+    const commandReturnInfo = await this.run(args, inputPath);
+    return commandReturnInfo;
   }
 
   public get name() {

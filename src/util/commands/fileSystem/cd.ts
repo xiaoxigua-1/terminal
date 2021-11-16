@@ -7,7 +7,7 @@ export default class CdCommand extends Command {
     super('cd', 'directory');
   }
 
-  run(args: string[], path: string): CommandReturnInfo {
+  async run(args: string[], path: string): Promise<CommandReturnInfo> {
     let output = '';
     let outputPath: string = path;
 

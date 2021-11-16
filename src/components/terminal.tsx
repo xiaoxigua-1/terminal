@@ -87,47 +87,49 @@ function Terminal(): JSX.Element {
           select();
         }}
         onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
-          if (e.key === 'Enter') {
-            if (!userInputLog.includes(userInputString) && userInputString !== '') {
-              setUserInputLog([userInputString, ...userInputLog]);
-            }
+          (async () => {
+            if (e.key === 'Enter') {
+              if (!userInputLog.includes(userInputString) && userInputString !== '') {
+                setUserInputLog([userInputString, ...userInputLog]);
+              }
 
-            const cloneData = [...consoleList];
-            let commandReturnInfo: CommandReturnInfo;
+              const cloneData = [...consoleList];
+              let commandReturnInfo: CommandReturnInfo;
 
-            switch (true) {
-              case userInputString.split(' ')[0] === 'clear':
-                setConsoleList([]);
-                setUserInputString('');
-                return;
-              case userInputString === '':
-                commandReturnInfo = {
-                  output: '',
+              switch (true) {
+                case userInputString.split(' ')[0] === 'clear':
+                  setConsoleList([]);
+                  setUserInputString('');
+                  return;
+                case userInputString === '':
+                  commandReturnInfo = {
+                    output: '',
+                    path,
+                  };
+                  break;
+                default:
+                  commandReturnInfo = await commandManager.runCommand(userInputString, path);
+                  break;
+              }
+
+              cloneData.push(
+                {
+                  userInput: userInputString,
+                  output: commandReturnInfo.output,
                   path,
-                };
-                break;
-              default:
-                commandReturnInfo = commandManager.runCommand(userInputString, path);
-                break;
+                },
+              );
+
+              setPath(commandReturnInfo.path);
+              setConsoleList(cloneData);
+              setUserInputString('');
+              setUserInputLogCount(-1);
+            } else if (e.key === 'ArrowUp' && userInputLogCount + 1 < userInputLog.length) {
+              setUserInputLogCount(userInputLogCount + 1);
+            } else if (e.key === 'ArrowDown' && userInputLogCount - 1 >= 0) {
+              setUserInputLogCount(userInputLogCount - 1);
             }
-
-            cloneData.push(
-              {
-                userInput: userInputString,
-                output: commandReturnInfo.output,
-                path,
-              },
-            );
-
-            setPath(commandReturnInfo.path);
-            setConsoleList(cloneData);
-            setUserInputString('');
-            setUserInputLogCount(-1);
-          } else if (e.key === 'ArrowUp' && userInputLogCount + 1 < userInputLog.length) {
-            setUserInputLogCount(userInputLogCount + 1);
-          } else if (e.key === 'ArrowDown' && userInputLogCount - 1 >= 0) {
-            setUserInputLogCount(userInputLogCount - 1);
-          }
+          })();
         }}
         onSelect={select}
       />

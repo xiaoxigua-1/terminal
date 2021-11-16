@@ -14,7 +14,7 @@ class CommandManager {
     this.commands.push(command);
   }
 
-  runCommand(args: string, inputPath: string): CommandReturnInfo {
+  async runCommand(args: string, inputPath: string): Promise<CommandReturnInfo> {
     const argsArray = this.stringSplit(args);
     const name = argsArray[0];
     const searchCommand = this.commands.find((command) => command.name === name);
@@ -34,7 +34,9 @@ class CommandManager {
       };
     }
 
-    return searchCommand.init(argsArray, inputPath);
+    const commandReturnInfo = await searchCommand.init(argsArray, inputPath);
+
+    return commandReturnInfo;
   }
 
   helpCommand(args: string[]): JSX.Element | string {

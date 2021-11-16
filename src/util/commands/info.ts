@@ -6,7 +6,7 @@ export default class InfoCommand extends Command {
     super('info', '[command]');
   }
 
-  run(args: string[], path: string): CommandReturnInfo {
+  async run(args: string[], path: string): Promise<CommandReturnInfo> {
     return {
       output: `hi this is ${this.name}`,
       path,

@@ -8,7 +8,7 @@ export default class EchoCommand extends Command {
     super('whoami', 'Show user name');
   }
 
-  run(args: string[], path: string): CommandReturnInfo {
+  async run(args: string[], path: string): Promise<CommandReturnInfo> {
     return {
       output: 'user',
       path,

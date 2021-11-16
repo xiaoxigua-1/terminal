@@ -8,7 +8,7 @@ export default class EchoCommand extends Command {
     super('echo', '[args ...]');
   }
 
-  run(args: string[], path: string): CommandReturnInfo {
+  async run(args: string[], path: string): Promise<CommandReturnInfo> {
     return {
       output: args.join(' '),
       path,

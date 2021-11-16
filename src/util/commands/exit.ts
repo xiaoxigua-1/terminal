@@ -6,7 +6,7 @@ export default class ExitCommand extends Command {
     super('exit', 'exit tab');
   }
 
-  run(args: string[], path: string): CommandReturnInfo {
+  async run(args: string[], path: string): Promise<CommandReturnInfo> {
     window.close();
     return {
       output: `${this.name}`,

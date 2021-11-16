@@ -1,8 +1,9 @@
+import axios, { Method } from 'axios';
 import Command from '../Command';
 import { CommandReturnInfo } from '../data/CommandReturnInfo';
 
 export default class CurlCommand extends Command {
-  private _method: string[] = [];
+  private _method: Method[] = [];
 
   constructor() {
     super('curl', '[options...] <url>');
@@ -14,12 +15,18 @@ export default class CurlCommand extends Command {
       .option('request')
       .alias('-X')
       .default('GET')
-      .value as string[];
+      .value as Method[];
   }
 
-  run(args: string[], path: string): CommandReturnInfo {
+  async run(args: string[], path: string): Promise<CommandReturnInfo> {
+    const url = args[args.length - 1];
+    const response = await axios({
+      method: this._method[this._method.length - 1],
+      url,
+    });
+
     return {
-      output: `method is ${this._method}`,
+      output: response.data,
       path,
     };
   }
