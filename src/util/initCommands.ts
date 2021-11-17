@@ -6,6 +6,7 @@ import EchoCommand from './commands/echo';
 import WhoamiCommand from './commands/whoami';
 import CdCommand from './commands/fileSystem/cd';
 import LsCommand from './commands/fileSystem/ls';
+import CatCommand from './commands/fileSystem/cat';
 
 export default function initCommands(
   commandsManager: CommandsManager,
@@ -18,6 +19,7 @@ export default function initCommands(
     new WhoamiCommand(),
     new CdCommand(),
     new LsCommand(),
+    new CatCommand(),
   ];
 
   commands.map((value) => commandsManager.addCommand(value));

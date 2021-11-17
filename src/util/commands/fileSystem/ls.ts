@@ -5,8 +5,6 @@ import Ls from '../../../components/ls';
 import pathParse from './pathParser';
 
 export default class LsCommand extends Command {
-  private value: string[] = [];
-
   constructor() {
     super('ls', '[FILE]');
   }

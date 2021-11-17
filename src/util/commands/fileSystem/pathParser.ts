@@ -52,7 +52,6 @@ export default function pathParse(path: string, directory: string): PathData | n
   }
 
   // pathNodes.splice(0, 1);
-  console.log(pathNodes);
   return {
     path: pathNodes,
     type: pathNodes[pathNodes.length - 1].type,
