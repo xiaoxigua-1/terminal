@@ -9,6 +9,7 @@ import Console, { ConsoleProp } from './console';
 import initCommands from '../util/initCommands';
 import CommandManager from '../util/commandManage';
 import { CommandReturnInfo } from '../util/data/CommandReturnInfo';
+import ClearCommand from '../util/commands/clear';
 
 const commandManager = new CommandManager();
 /**
@@ -35,7 +36,9 @@ function Terminal(): JSX.Element {
 
   useEffect(() => {
     const input = userInputRef.current;
-    setUserInputString(userInputLog[userInputLogCount] ? userInputLog[userInputLogCount] : '');
+    setUserInputString(
+      userInputLog[userInputLogCount] ? userInputLog[userInputLogCount] : '',
+    );
     if (input !== null) {
       if (input.selectionEnd !== null) {
         input.selectionEnd = userInputString.length;
@@ -133,8 +136,13 @@ function Terminal(): JSX.Element {
             } else if (e.key === 'Tab') {
               e.preventDefault();
               if (hint && /\S/.test(userInputString)) {
-                const commands = commandManager.commands.filter(
-                  (command) => new RegExp(`^${userInputString}`).test(command.name),
+                const commands = [
+                  new ClearCommand(),
+                  ...commandManager.commands,
+                ].filter(
+                  (command) => new RegExp(`^${userInputString}`).test(
+                    command.name,
+                  ),
                 );
 
                 if (commands.length > 1) {
@@ -163,7 +171,10 @@ function Terminal(): JSX.Element {
       />
       <div className="z-10">
         <span className="text-green-600 break-all">xyz-studio@user:</span>
-        <span className="text-blue-500 break-all">{path}</span>
+        <span className="text-blue-500 break-all">
+          {path}
+          $
+        </span>
         <span className="text-white relative w-auto break-all">
           <span className="pl-2 text-white relative w-auto break-all whitespace-pre-line">
             {userInputString.slice(0, userSelect.start).replaceAll(' ', '\u00a0')}
