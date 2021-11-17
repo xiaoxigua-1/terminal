@@ -6,7 +6,7 @@ import pathParse from './pathParser';
 
 export default class CatCommand extends Command {
   constructor() {
-    super('cat', '[FILE]');
+    super('cat', '[FILE]...');
   }
 
   async run(args: string[], path: string): Promise<CommandReturnInfo> {
@@ -21,7 +21,11 @@ export default class CatCommand extends Command {
 
         if (file.fileType === 'text') {
           text += `${(file as TextFile).text}\n`;
+        } else {
+          text += '對不起我的技術無法讀取二進位檔 QQ\n';
         }
+      } else {
+        text += `cat: read error: Is ${i} directory`;
       }
     }
 
