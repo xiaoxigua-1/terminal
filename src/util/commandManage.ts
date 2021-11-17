@@ -4,20 +4,20 @@ import NotFound from '../components/notFound';
 import Help from '../components/help';
 
 class CommandManager {
-  private commands: Command[];
+  private _commands: Command[];
 
   constructor() {
-    this.commands = [];
+    this._commands = [];
   }
 
   addCommand(command: Command) {
-    this.commands.push(command);
+    this._commands.push(command);
   }
 
   async runCommand(args: string, inputPath: string): Promise<CommandReturnInfo> {
     const argsArray = this.stringSplit(args);
     const name = argsArray[0];
-    const searchCommand = this.commands.find((command) => command.name === name);
+    const searchCommand = this._commands.find((command) => command.name === name);
     argsArray.splice(0, 1);
 
     if (name === 'help') {
@@ -43,10 +43,10 @@ class CommandManager {
     const commandName = args[0];
 
     if (commandName === undefined) {
-      return Help(this.commands);
+      return Help(this._commands);
     }
 
-    const searchCommand = this.commands.find((command) => command.name === commandName);
+    const searchCommand = this._commands.find((command) => command.name === commandName);
 
     if (searchCommand === undefined) return NotFound(commandName);
 
@@ -96,6 +96,10 @@ class CommandManager {
     }
 
     return argsArray;
+  }
+
+  public get commands() {
+    return this._commands;
   }
 }
 
