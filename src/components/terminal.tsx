@@ -136,9 +136,11 @@ function Terminal(): JSX.Element {
       <div className="z-10">
         <span className="text-green-600 break-all">xyz-studio@user:</span>
         <span className="text-blue-500 break-all">{path}</span>
-        <span className="text-white relative inline-block w-auto break-all">
-          <span className="pl-2 text-white relative inline-block w-auto break-all whitespace-pre-line">{userInputString.slice(0, userSelect.start).replaceAll(' ', '\u00a0')}</span>
-          <span className="animate-caret bg-white w-auto min-w-2 inline-block bottom-0 text-black whitespace-pre-line">
+        <span className="text-white relative w-auto break-all">
+          <span className="pl-2 text-white relative w-auto break-all whitespace-pre-line">
+            {userInputString.slice(0, userSelect.start).replaceAll(' ', '\u00a0')}
+          </span>
+          <span className="animate-caret bg-white w-auto min-w-2  bottom-0 text-black whitespace-pre-line">
             {userInputString.slice(userSelect.start, userSelect.end + 1).replaceAll(' ', '\u00a0') || '\u00a0'}
           </span>
           <span className="whitespace-pre-line break-all">
