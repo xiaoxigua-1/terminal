@@ -26,6 +26,7 @@ function Terminal(): JSX.Element {
     end: 0,
     start: 0,
   });
+  const [hint, setHint] = useState(false);
 
   useEffect(() => {
     const app = window;
@@ -84,6 +85,7 @@ function Terminal(): JSX.Element {
         ref={userInputRef}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
           setUserInputString(event.target.value);
+          setHint(false);
           select();
         }}
         onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
@@ -128,6 +130,29 @@ function Terminal(): JSX.Element {
               setUserInputLogCount(userInputLogCount + 1);
             } else if (e.key === 'ArrowDown' && userInputLogCount - 1 >= 0) {
               setUserInputLogCount(userInputLogCount - 1);
+            } else if (e.key === 'Tab') {
+              e.preventDefault();
+              if (hint && /\S/.test(userInputString)) {
+                const commands = commandManager.commands.filter(
+                  (command) => new RegExp(`^${userInputString}`).test(command.name),
+                );
+
+                if (commands.length > 1) {
+                  const cloneData = [...consoleList];
+
+                  cloneData.push(
+                    {
+                      userInput: userInputString,
+                      output: commands.map((command) => command.name).join('\n'),
+                      path,
+                    },
+                  );
+
+                  setConsoleList(cloneData);
+                }
+              } else {
+                setHint(true);
+              }
             }
           })();
         }}
