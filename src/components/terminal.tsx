@@ -149,6 +149,9 @@ function Terminal(): JSX.Element {
                   );
 
                   setConsoleList(cloneData);
+                } else if (commands.length === 1) {
+                  setUserInputString(commands[0].name);
+                  setHint(false);
                 }
               } else {
                 setHint(true);
