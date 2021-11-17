@@ -9,7 +9,7 @@ export default class CdCommand extends Command {
 
   async run(args: string[], path: string): Promise<CommandReturnInfo> {
     let output = '';
-    let outputPath: string = path;
+    let outputPath = path;
 
     if (args[0] === undefined) {
       output = '';
