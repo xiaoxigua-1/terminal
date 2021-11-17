@@ -5,7 +5,7 @@ export default class ClearCommand extends Command {
   private value: string[] = [];
 
   constructor() {
-    super('clear', '');
+    super('clear', '[options]');
   }
 
   async run(args: string[], path: string): Promise<CommandReturnInfo> {

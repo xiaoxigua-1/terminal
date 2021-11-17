@@ -2,6 +2,7 @@ import Command from './Command';
 import { CommandReturnInfo } from './data/CommandReturnInfo';
 import NotFound from '../components/notFound';
 import Help from '../components/help';
+import ClearCOmmand from './commands/clear';
 
 class CommandManager {
   private _commands: Command[];
@@ -43,7 +44,7 @@ class CommandManager {
     const commandName = args[0];
 
     if (commandName === undefined) {
-      return Help(this._commands);
+      return Help([new ClearCOmmand(), ...this._commands]);
     }
 
     const searchCommand = this._commands.find((command) => command.name === commandName);
