@@ -85,7 +85,8 @@ class CommandManager {
           colon = !colon;
           break;
         case '\\':
-          backslash = true;
+          if (backslash) str += i;
+          if (!colon) backslash = true;
           break;
         default:
           str += i;
