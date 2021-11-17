@@ -18,7 +18,7 @@ export default class CdCommand extends Command {
 
       if (directory === null) {
         output = `${this.name}: can't cd to ${args[0]}: No such file or directory`;
-      } else if (directory.type !== 'folder') {
+      } else if (directory.type !== 'Folder') {
         output = `${this.name}: ${args[0]}: No such directory`;
       } else {
         if (directory.path[1]?.name === 'home' && directory.path[2]?.name === 'xiaoxigua') {

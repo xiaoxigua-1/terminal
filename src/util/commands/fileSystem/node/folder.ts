@@ -4,7 +4,7 @@ export default class Folder extends Node {
   private _nodes: Node[];
 
   constructor(name: string, nodes: Node[]) {
-    super(name, 'folder');
+    super(name, 'Folder');
     this._nodes = nodes;
   }
 

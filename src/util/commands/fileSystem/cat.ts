@@ -16,7 +16,7 @@ export default class CatCommand extends Command {
     for (const i of args) {
       const pathData = pathParse(path, i);
 
-      if (pathData?.type === 'file') {
+      if (pathData?.type === 'File') {
         const file = pathData?.path[pathData?.path.length - 1] as File;
 
         if (file.fileType === 'text') {
