@@ -36,9 +36,11 @@ function Terminal(): JSX.Element {
 
   useEffect(() => {
     const input = userInputRef.current;
+
     setUserInputString(
       userInputLog[userInputLogCount] ? userInputLog[userInputLogCount] : '',
     );
+
     if (input !== null) {
       if (input.selectionEnd !== null) {
         input.selectionEnd = userInputString.length;

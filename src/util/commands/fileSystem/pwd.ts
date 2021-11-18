@@ -4,7 +4,7 @@ import pathParse from './pathParser';
 
 export default class PwdCommand extends Command {
   constructor() {
-    super('pwd', '');
+    super('pwd', 'working directory');
   }
 
   async run(args: string[], path: string): Promise<CommandReturnInfo> {
