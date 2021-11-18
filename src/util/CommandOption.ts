@@ -68,12 +68,9 @@ export default class ComandOption {
   public get value() {
     const touchs = this.touch;
     const values: string[] = [];
-    const dels = this._args.map((value, index) => (
-      touchs.includes(value) ? values.push(this._args[index + 1]) : -1
-    ));
-
-    dels.forEach((value, index) => {
-      if (value !== -1) {
+    this._args.forEach((value, index) => {
+      if (touchs.includes(value)) {
+        values.push(this._args[index + 1]);
         if (this._type === 'TAG') {
           this._used.push(index);
         } else {

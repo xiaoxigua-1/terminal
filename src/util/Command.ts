@@ -51,8 +51,12 @@ export default abstract class Command implements CommandSetValue {
       };
     }
 
+    const commandReturnInfo = await this.run(args.filter(
+      (_arg, index) => (
+        this._commandParser.used.find((used) => used.includes(index)) === undefined
+      ),
+    ), inputPath);
     this._commandParser.clearCommandOptions();
-    const commandReturnInfo = await this.run(args, inputPath);
     return commandReturnInfo;
   }
 

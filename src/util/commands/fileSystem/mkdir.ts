@@ -4,15 +4,17 @@ import pathParse from './pathParser';
 import fileTree, { mkdir } from './tree';
 
 export default class MkdirCommand extends Command {
-  private _parents: boolean;
+  private _parents = false;
+
+  private _verbose = false;
 
   constructor() {
     super('mkdir', '');
-    this._parents = false;
   }
 
   setValue(_args: string[]) {
     this._parents = this._commandParser.option('parents').alias('-p').tag().value as boolean;
+    this._verbose = this._commandParser.option('verbose').alias('-v').tag().value as boolean;
   }
 
   async run(args: string[], path: string): Promise<CommandReturnInfo> {
@@ -30,6 +32,9 @@ export default class MkdirCommand extends Command {
 
         if (mkdirNodes !== 'no' && mkdirNodes !== null) {
           fileTree.nodes = mkdirNodes;
+          if (this._verbose) {
+            outputText += `created directory: '${inputPath}'\n`;
+          }
         } else if (mkdirNodes === 'no') {
           outputText += `mkdir: can't create directory '${inputPath}': No such file or directory \n`;
         } else {
