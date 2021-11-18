@@ -2,7 +2,11 @@ import fileTree from './tree';
 import Folder from './node/folder';
 import { PathData } from './data/returnPathData';
 
-export default function pathParse(path: string, directory: string): PathData | null {
+export default function pathParse(
+  path: string,
+  directory: string,
+  parents = false,
+): PathData | null {
   let pathArray = path.split('/');
   let start = fileTree;
   const directoryArray = directory.split('/');
@@ -44,10 +48,15 @@ export default function pathParse(path: string, directory: string): PathData | n
       const searchNode = pathNodes[pathNodes.length - 1].searchNode(i);
 
       if (searchNode === null) {
-        return null;
+        if (parents) {
+          pathNodes.push(new Folder(i, []));
+        } else {
+          return null;
+        }
+      } else {
+        start = searchNode as Folder;
+        pathNodes.push(start);
       }
-      start = searchNode as Folder;
-      pathNodes.push(start);
     }
   }
 

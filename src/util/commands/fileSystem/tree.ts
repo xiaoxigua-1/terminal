@@ -1,5 +1,6 @@
 import Folder from './node/folder';
 import TextFile from './node/textFile';
+import Node from './data/node';
 
 const fileTree = new Folder('', [
   new Folder('home', [
@@ -11,3 +12,41 @@ const fileTree = new Folder('', [
 ]);
 
 export default fileTree;
+
+export function mkdir(
+  path: string[],
+  nodes: Node[],
+  index: number,
+  parents = false,
+): Node[] | null | 'no' {
+  const findNode = nodes.find(
+    (node) => node.name === path[index] && node.type === 'Folder',
+  ) as Folder | undefined;
+
+  if (findNode === undefined) {
+    if (index === path.length - 1) {
+      nodes.push(new Folder(path[index], []));
+    } else if (parents) {
+      const returnNodes = mkdir(path, [], index + 1, parents);
+
+      if (returnNodes !== null && returnNodes !== 'no') {
+        nodes.push(new Folder(path[index], returnNodes));
+      }
+    } else {
+      return 'no';
+    }
+  } else {
+    if (index === path.length - 1) return null;
+    const findNodeIndex = nodes.indexOf(findNode);
+    const returnNodes = mkdir(path, findNode.nodes, index + 1, parents);
+
+    if (returnNodes !== null && returnNodes !== 'no') {
+      // eslint-disable-next-line no-param-reassign
+      (nodes[findNodeIndex] as Folder).nodes = returnNodes;
+    } else {
+      return null;
+    }
+  }
+
+  return nodes;
+}

@@ -15,4 +15,8 @@ export default class Folder extends Node {
   public get nodes(): Node[] {
     return this._nodes;
   }
+
+  public set nodes(nodes: Node[]) {
+    this._nodes = nodes;
+  }
 }
