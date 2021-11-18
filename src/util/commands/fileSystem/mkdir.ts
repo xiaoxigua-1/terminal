@@ -9,7 +9,7 @@ export default class MkdirCommand extends Command {
   private _verbose = false;
 
   constructor() {
-    super('mkdir', '');
+    super('mkdir', '[OPTIONS] DIRECTORY...');
   }
 
   setValue(_args: string[]) {

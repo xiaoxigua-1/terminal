@@ -133,8 +133,12 @@ function Terminal(): JSX.Element {
               setUserInputLogCount(-1);
             } else if (e.key === 'ArrowUp' && userInputLogCount + 1 < userInputLog.length) {
               setUserInputLogCount(userInputLogCount + 1);
-            } else if (e.key === 'ArrowDown' && userInputLogCount - 1 >= 0) {
-              setUserInputLogCount(userInputLogCount - 1);
+            } else if (e.key === 'ArrowDown') {
+              if (userInputLogCount - 1 >= 0) {
+                setUserInputLogCount(userInputLogCount - 1);
+              } else {
+                setUserInputString('');
+              }
             } else if (e.key === 'Tab') {
               e.preventDefault();
               if (hint && /\S/.test(userInputString)) {
