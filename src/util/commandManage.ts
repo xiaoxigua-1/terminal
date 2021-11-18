@@ -58,6 +58,7 @@ class CommandManager {
     const argsArray: string[] = [];
     let str = '';
     let colon = false;
+    let colonStr = '';
     let backslash = false;
 
     // eslint-disable-next-line no-restricted-syntax
@@ -82,7 +83,15 @@ class CommandManager {
           break;
         case '\'':
         case '"':
-          colon = !colon;
+          if (!colon) {
+            colonStr = i;
+            colon = true;
+          } else if (colonStr === i) {
+            colon = false;
+          } else {
+            str += i;
+          }
+
           break;
         case '\\':
           if (backslash) str += i;
