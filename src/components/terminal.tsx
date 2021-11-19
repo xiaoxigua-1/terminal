@@ -52,10 +52,12 @@ function Terminal(): JSX.Element {
     }
   }, [userInputLogCount]);
 
+  // 指令初始化
   useEffect(() => {
     initCommands(commandManager);
   }, []);
 
+  // 更新光標位置
   const select = () => {
     if (userInputRef.current !== null) {
       const input = userInputRef.current;
@@ -122,9 +124,10 @@ function Terminal(): JSX.Element {
                     command.name,
                   ),
                 );
-
+                // 指令不只一個時
                 if (commands.length > 1) {
                   const cloneData = [...consoleList];
+
                   if (hint) {
                     cloneData.push(
                       {
@@ -140,11 +143,10 @@ function Terminal(): JSX.Element {
 
                   setConsoleList(cloneData);
                 } else if (commands.length === 1) {
+                  // 只有一個時直接完成指令
                   setUserInputString(commands[0].name);
                   setHint(false);
                 }
-              } else {
-                setHint(true);
               }
             }
           })();
