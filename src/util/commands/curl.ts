@@ -21,6 +21,7 @@ export default class CurlCommand extends Command {
 
   async run(args: string[], path: string): Promise<CommandReturnInfo> {
     const url = args[args.length - 1];
+
     try {
       const response = await axios({
         method: this._method[this._method.length - 1],

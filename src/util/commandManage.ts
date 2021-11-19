@@ -46,7 +46,7 @@ class CommandManager {
       });
     }
 
-    const argsArray = this.stringSplit(args);
+    const argsArray = this.commandHandler(args);
     const name = argsArray[0];
     const searchCommand = this._commands.find((command) => command.name === name);
     argsArray.splice(0, 1);
@@ -91,7 +91,7 @@ class CommandManager {
     return searchCommand.help();
   }
 
-  private stringSplit(args: string) {
+  private commandHandler(args: string) {
     const argsArray: string[] = [];
     let str = '';
     let colon = false;
