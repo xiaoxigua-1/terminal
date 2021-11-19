@@ -12,7 +12,7 @@ export default class PwdCommand extends Command {
   private _fileType: string[] = [];
 
   constructor() {
-    super('find', 'working directory');
+    super('find', '[options...] [path...]');
   }
 
   setValue() {
