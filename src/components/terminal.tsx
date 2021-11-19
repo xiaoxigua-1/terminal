@@ -5,11 +5,9 @@ import {
   useEffect,
   useRef,
 } from 'react';
-import Console, { ConsoleProp } from './console';
+import Console from './console';
 import initCommands from '../util/initCommands';
 import CommandManager from '../util/commandManage';
-import { CommandReturnInfo } from '../util/data/CommandReturnInfo';
-import ClearCommand from '../util/commands/clear';
 
 const commandManager = new CommandManager();
 /**
@@ -20,7 +18,7 @@ function Terminal(): JSX.Element {
   const userInputRef = useRef<HTMLInputElement>(null);
   const [userInputString, setUserInputString] = useState('');
   const [path, setPath] = useState('~');
-  const [consoleList, setConsoleList] = useState<ConsoleProp[]>([]);
+  const [consoleList, setConsoleList] = commandManager.useConsole();
   const [userInputLog, setUserInputLog] = useState<string[]>([]);
   const [userInputLogCount, setUserInputLogCount] = useState(-1);
   const [userSelect, setUserSelect] = useState({
@@ -96,39 +94,13 @@ function Terminal(): JSX.Element {
         onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
           (async () => {
             if (e.key === 'Enter') {
-              if (!userInputLog.includes(userInputString) && userInputString !== '') {
+              if (!userInputLog.includes(userInputString) && /\s/.test(userInputString)) {
                 setUserInputLog([userInputString, ...userInputLog]);
               }
 
-              const cloneData = [...consoleList];
-              let commandReturnInfo: CommandReturnInfo;
-
-              switch (true) {
-                case userInputString.split(' ')[0] === 'clear':
-                  setConsoleList([]);
-                  setUserInputString('');
-                  return;
-                case userInputString === '':
-                  commandReturnInfo = {
-                    output: '',
-                    path,
-                  };
-                  break;
-                default:
-                  commandReturnInfo = await commandManager.runCommand(userInputString, path);
-                  break;
-              }
-
-              cloneData.push(
-                {
-                  userInput: userInputString,
-                  output: commandReturnInfo.output,
-                  path,
-                },
-              );
+              const commandReturnInfo = await commandManager.runCommand(userInputString, path);
 
               setPath(commandReturnInfo.path);
-              setConsoleList(cloneData);
               setUserInputString('');
               setUserInputLogCount(-1);
             } else if (e.key === 'ArrowUp' && userInputLogCount + 1 < userInputLog.length) {
@@ -142,10 +114,7 @@ function Terminal(): JSX.Element {
             } else if (e.key === 'Tab') {
               e.preventDefault();
               if (hint && /\S/.test(userInputString)) {
-                const commands = [
-                  new ClearCommand(),
-                  ...commandManager.commands,
-                ].filter(
+                const commands = commandManager.commands.filter(
                   (command) => new RegExp(`^${userInputString}`).test(
                     command.name,
                   ),

@@ -9,6 +9,7 @@ import LsCommand from './commands/fileSystem/ls';
 import CatCommand from './commands/fileSystem/cat';
 import PwdCommand from './commands/fileSystem/pwd';
 import MkdirCommand from './commands/fileSystem/mkdir';
+import ClearCommand from './commands/clear';
 
 export default function initCommands(
   commandsManager: CommandsManager,
@@ -24,6 +25,7 @@ export default function initCommands(
     new CatCommand(),
     new PwdCommand(),
     new MkdirCommand(),
+    new ClearCommand(),
   ];
 
   commands.map((value) => commandsManager.addCommand(value));

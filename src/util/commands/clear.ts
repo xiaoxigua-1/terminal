@@ -9,6 +9,9 @@ export default class ClearCommand extends Command {
   }
 
   async run(args: string[], path: string): Promise<CommandReturnInfo> {
+    // clear console
+    this._commandManager.clearConsole();
+
     return {
       output: args.join(' '),
       path,

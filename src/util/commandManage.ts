@@ -1,14 +1,34 @@
+import { useState } from 'react';
 import Command from './Command';
 import { CommandReturnInfo } from './data/CommandReturnInfo';
 import NotFound from '../components/notFound';
 import Help from '../components/help';
-import ClearCOmmand from './commands/clear';
+import { ConsoleProp } from '../components/console';
 
 class CommandManager {
   private _commands: Command[];
 
+  private _console: ConsoleProp[];
+
+  private _setConsole!: React.Dispatch<React.SetStateAction<ConsoleProp[]>>;
+
+  private _clear = false;
+
   constructor() {
     this._commands = [];
+    this._console = [];
+  }
+
+  useConsole(): [ConsoleProp[], React.Dispatch<React.SetStateAction<ConsoleProp[]>>] {
+    const [consoleArray, setConsoleArray] = useState<ConsoleProp[]>([]);
+    this._console = consoleArray;
+    this._setConsole = setConsoleArray;
+    return [consoleArray, setConsoleArray];
+  }
+
+  clearConsole() {
+    this._setConsole([]);
+    this._clear = true;
   }
 
   addCommand(command: Command) {
@@ -16,6 +36,16 @@ class CommandManager {
   }
 
   async runCommand(args: string, inputPath: string): Promise<CommandReturnInfo> {
+    const cloneConsole = [...this._console];
+
+    if (/\s/.test(args)) {
+      cloneConsole.push({
+        userInput: args,
+        output: '',
+        path: inputPath,
+      });
+    }
+
     const argsArray = this.stringSplit(args);
     const name = argsArray[0];
     const searchCommand = this._commands.find((command) => command.name === name);
@@ -35,7 +65,14 @@ class CommandManager {
       };
     }
 
-    const commandReturnInfo = await searchCommand.init(argsArray, inputPath);
+    const commandReturnInfo = await searchCommand.init(argsArray, inputPath, this);
+    if (!this._clear) {
+      cloneConsole.push({
+        userInput: args,
+        output: commandReturnInfo.output,
+        path: commandReturnInfo.path,
+      });
+    }
 
     return commandReturnInfo;
   }
@@ -44,7 +81,7 @@ class CommandManager {
     const commandName = args[0];
 
     if (commandName === undefined) {
-      return Help([new ClearCOmmand(), ...this._commands]);
+      return Help(this._commands);
     }
 
     const searchCommand = this._commands.find((command) => command.name === commandName);

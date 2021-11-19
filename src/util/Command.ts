@@ -1,5 +1,6 @@
 import { CommandReturnInfo } from './data/CommandReturnInfo';
 import CommandParser from './CommandParser';
+import CommandManager from './commandManage';
 
 interface CommandSetValue {
   setValue: (_args: string[]) => void;
@@ -9,6 +10,8 @@ export default abstract class Command implements CommandSetValue {
   private _info = '';
 
   private _name = '';
+
+  protected _commandManager!: CommandManager;
 
   protected _commandParser = new CommandParser();
 
@@ -31,7 +34,12 @@ export default abstract class Command implements CommandSetValue {
     ).join('\n')}`;
   }
 
-  async init(args: string[], inputPath: string): Promise<CommandReturnInfo> {
+  async init(
+    args: string[],
+    inputPath: string,
+    commandManager: CommandManager,
+  ): Promise<CommandReturnInfo> {
+    this._commandManager = commandManager;
     this._commandParser.args = args;
     this.setValue(args);
     const help = this._commandParser.option('help').alias('-h').tag().value;
