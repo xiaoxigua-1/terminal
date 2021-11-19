@@ -95,7 +95,6 @@ function Terminal(): JSX.Element {
         }}
         onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
           (async () => {
-            console.log(userInputLogCount, userInputLog);
             if (e.key === 'Enter') {
               if (!userInputLog.includes(userInputString) && /\s/.test(userInputString)) {
                 setUserInputLog([userInputString, ...userInputLog]);
