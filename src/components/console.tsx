@@ -2,16 +2,26 @@ export interface ConsoleProp {
   userInput: string;
   path: string;
   output: string | JSX.Element;
+  user: string;
 }
 
 /**
  * Console component
  * @return{JSX.Element}
  */
-function Console({ userInput, output, path }: ConsoleProp): JSX.Element {
+function Console({
+  userInput,
+  output,
+  path,
+  user,
+}: ConsoleProp): JSX.Element {
   return (
     <div>
-      <span className="text-green-600 break-all">xyz-studio@user:</span>
+      <span className="text-green-600 break-all">
+        xyz-studio@
+        {user}
+        :
+      </span>
       <span className="text-blue-500 break-all">
         {path}
         $

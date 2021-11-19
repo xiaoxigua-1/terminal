@@ -17,8 +17,9 @@ const commandManager = new CommandManager();
 function Terminal(): JSX.Element {
   const userInputRef = useRef<HTMLInputElement>(null);
   const [userInputString, setUserInputString] = useState('');
-  const [path, setPath] = useState('~');
+  const [path] = commandManager.usePath();
   const [consoleList, setConsoleList] = commandManager.useConsole();
+  const [user] = commandManager.useUser();
   const [userInputLog, setUserInputLog] = useState<string[]>([]);
   const [userInputLogCount, setUserInputLogCount] = useState(-1);
   const [userSelect, setUserSelect] = useState({
@@ -79,6 +80,7 @@ function Terminal(): JSX.Element {
           userInput={value.userInput}
           output={value.output}
           path={value.path}
+          user={value.user}
         />
       ))}
       <input
@@ -98,9 +100,9 @@ function Terminal(): JSX.Element {
                 setUserInputLog([userInputString, ...userInputLog]);
               }
 
-              const commandReturnInfo = await commandManager.runCommand(userInputString, path);
+              // user run command
+              await commandManager.runCommand(userInputString, path);
 
-              setPath(commandReturnInfo.path);
               setUserInputString('');
               setUserInputLogCount(-1);
             } else if (e.key === 'ArrowUp' && userInputLogCount + 1 < userInputLog.length) {
@@ -128,6 +130,7 @@ function Terminal(): JSX.Element {
                       userInput: userInputString,
                       output: commands.map((command) => command.name).join('\n'),
                       path,
+                      user: commandManager.user,
                     },
                   );
 
@@ -145,7 +148,11 @@ function Terminal(): JSX.Element {
         onSelect={select}
       />
       <div className="z-10">
-        <span className="text-green-600 break-all">xyz-studio@user:</span>
+        <span className="text-green-600 break-all">
+          xyz-studio@
+          {user}
+          :
+        </span>
         <span className="text-blue-500 break-all">
           {path}
           $

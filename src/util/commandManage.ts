@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Command from './Command';
-import { CommandReturnInfo } from './data/CommandReturnInfo';
 import NotFound from '../components/notFound';
 import Help from '../components/help';
 import { ConsoleProp } from '../components/console';
@@ -11,6 +10,14 @@ class CommandManager {
   private _console: ConsoleProp[];
 
   private _setConsole!: React.Dispatch<React.SetStateAction<ConsoleProp[]>>;
+
+  private _setUser!: React.Dispatch<React.SetStateAction<string>>;
+
+  private _user = 'xiaoxigua';
+
+  private _path = '~';
+
+  private _setPath!: React.Dispatch<React.SetStateAction<string>>;
 
   private _clear = false;
 
@@ -23,7 +30,24 @@ class CommandManager {
     const [consoleArray, setConsoleArray] = useState<ConsoleProp[]>([]);
     this._console = consoleArray;
     this._setConsole = setConsoleArray;
+
     return [consoleArray, setConsoleArray];
+  }
+
+  useUser(): [string, React.Dispatch<React.SetStateAction<string>>] {
+    const [user, setUser] = useState(this._user);
+    this._user = user;
+    this._setUser = setUser;
+
+    return [user, setUser];
+  }
+
+  usePath(): [string, React.Dispatch<React.SetStateAction<string>>] {
+    const [path, setPath] = useState('~');
+    this._path = path;
+    this._setPath = setPath;
+
+    return [path, setPath];
   }
 
   clearConsole() {
@@ -35,15 +59,16 @@ class CommandManager {
     this._commands.push(command);
   }
 
-  async runCommand(args: string, inputPath: string): Promise<CommandReturnInfo> {
+  async runCommand(args: string, inputPath: string) {
     const cloneConsole = [...this._console];
-
-    if (/\s/.test(args)) {
+    if (/^\s+$/.test(args) || args === '') {
       cloneConsole.push({
         userInput: args,
         output: '',
         path: inputPath,
+        user: this._user,
       });
+      return;
     }
 
     const argsArray = this.commandHandler(args);
@@ -52,29 +77,45 @@ class CommandManager {
     argsArray.splice(0, 1);
 
     if (name === 'help') {
-      return {
+      cloneConsole.push({
+        userInput: args,
         output: this.helpCommand(argsArray),
         path: inputPath,
-      };
+        user: this._user,
+      });
+
+      this._setConsole(cloneConsole);
+      return;
     }
 
     if (searchCommand === undefined) {
-      return {
-        output: NotFound(name),
-        path: inputPath,
-      };
-    }
-
-    const commandReturnInfo = await searchCommand.init(argsArray, inputPath, this);
-    if (!this._clear) {
       cloneConsole.push({
         userInput: args,
-        output: commandReturnInfo.output,
-        path: commandReturnInfo.path,
+        output: NotFound(name),
+        path: inputPath,
+        user: this._user,
       });
+    } else {
+      const commandReturnInfo = await searchCommand.init(argsArray, inputPath, this);
+
+      if (!this._clear) {
+        cloneConsole.push({
+          userInput: args,
+          output: commandReturnInfo.output,
+          path: inputPath,
+          user: this._user,
+        });
+
+        this._setPath(commandReturnInfo.path);
+      } else {
+        this._setConsole([]);
+        this._clear = false;
+
+        return;
+      }
     }
 
-    return commandReturnInfo;
+    this._setConsole(cloneConsole);
   }
 
   helpCommand(args: string[]): JSX.Element | string {
@@ -148,6 +189,14 @@ class CommandManager {
 
   public get commands() {
     return this._commands;
+  }
+
+  public get user() {
+    return this._user;
+  }
+
+  public set user(user: string) {
+    this._user = user;
   }
 }
 

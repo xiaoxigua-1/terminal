@@ -3,8 +3,8 @@ import File from './file';
 export default class TextFile extends File {
   private _text: string;
 
-  constructor(name: string, text: string) {
-    super(name, 'text');
+  constructor(name: string, text: string, owner: string) {
+    super(name, 'text', owner);
     this._text = text;
   }
 

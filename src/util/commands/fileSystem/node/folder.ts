@@ -3,8 +3,8 @@ import Node from '../data/node';
 export default class Folder extends Node {
   private _nodes: Node[];
 
-  constructor(name: string, nodes: Node[]) {
-    super(name, 'Folder');
+  constructor(name: string, nodes: Node[], owner: string) {
+    super(name, 'Folder', owner);
     this._nodes = nodes;
   }
 

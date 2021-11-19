@@ -28,6 +28,7 @@ export default class MkdirCommand extends Command {
           pathString.slice(1, pathString.length),
           fileTree.nodes, 0,
           this._parents,
+          this._commandManager.user,
         );
 
         if (mkdirNodes !== 'no' && mkdirNodes !== null) {
