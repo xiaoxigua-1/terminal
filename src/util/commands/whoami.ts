@@ -10,7 +10,7 @@ export default class EchoCommand extends Command {
 
   async run(args: string[], path: string): Promise<CommandReturnInfo> {
     return {
-      output: 'user',
+      output: this._commandManager.user,
       path,
     };
   }
