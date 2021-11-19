@@ -95,6 +95,7 @@ function Terminal(): JSX.Element {
         }}
         onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
           (async () => {
+            console.log(userInputLogCount, userInputLog);
             if (e.key === 'Enter') {
               if (!userInputLog.includes(userInputString) && /\s/.test(userInputString)) {
                 setUserInputLog([userInputString, ...userInputLog]);
@@ -112,6 +113,7 @@ function Terminal(): JSX.Element {
                 setUserInputLogCount(userInputLogCount - 1);
               } else {
                 setUserInputString('');
+                setUserInputLogCount(-1);
               }
             } else if (e.key === 'Tab') {
               e.preventDefault();
