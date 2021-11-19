@@ -9,6 +9,8 @@ export default class PwdCommand extends Command {
 
   private _iname: string[] = [];
 
+  private _fileType: string[] = [];
+
   constructor() {
     super('find', 'working directory');
   }
@@ -16,13 +18,16 @@ export default class PwdCommand extends Command {
   setValue() {
     this._valueName = this._commandParser.option('name', '-').value as string[];
     this._iname = this._commandParser.option('iname', '-').value as string[];
+    this._fileType = this._commandParser.option('type', '-').value as string[];
   }
 
   async run(args: string[], path: string): Promise<CommandReturnInfo> {
     if (args.length === 0) {
       args.push('.');
     }
+
     let outputText = '';
+
     // eslint-disable-next-line no-restricted-syntax
     for (const searchPath of args) {
       const search = pathParse(path, searchPath)?.path;
@@ -75,17 +80,34 @@ export default class PwdCommand extends Command {
           }
         }
 
-        let paths = filesOrDirectorys.map((p) => p.map((c) => c.name));
+        let paths: Node[][] | string[][] = filesOrDirectorys;
 
+        // 檔案類型比對
         // eslint-disable-next-line no-restricted-syntax
-        for (const name of this._valueName) {
-          paths = paths.filter((pathArray) => pathArray.includes(name));
+        for (const fileType of this._fileType) {
+          paths = paths.filter((pathArray) => (
+            pathArray[pathArray.length - 1]?.type === (
+              // eslint-disable-next-line no-nested-ternary
+              fileType === 'f' ? 'File' : fileType === 'd' ? 'Folder' : ''
+            )
+          ));
         }
 
+        paths = paths.map((p) => p.map((c) => c.name));
+
+        // 完全相同比對
+        // eslint-disable-next-line no-restricted-syntax
+        for (const name of this._valueName) {
+          paths = paths.filter((pathArray) => pathArray.find((nodeName) => (
+            new RegExp(`^${name.replaceAll('*', '.+')}$`).test(nodeName)
+          )));
+        }
+
+        // 不分大小寫比對
         // eslint-disable-next-line no-restricted-syntax
         for (const iname of this._iname) {
           paths = paths.filter((pathArray) => (
-            pathArray.find((nodeName) => nodeName.toLocaleLowerCase() === iname.toLocaleLowerCase())
+            pathArray.find((nodeName) => new RegExp(`^${iname.replaceAll('*', '.+')}$`, 'gi').test(nodeName))
           ));
         }
 
