@@ -116,7 +116,7 @@ function Terminal(): JSX.Element {
               }
             } else if (e.key === 'Tab') {
               e.preventDefault();
-              if (hint && /\S/.test(userInputString)) {
+              if (/\S/.test(userInputString)) {
                 const commands = commandManager.commands.filter(
                   (command) => new RegExp(`^${userInputString}`).test(
                     command.name,
@@ -125,15 +125,18 @@ function Terminal(): JSX.Element {
 
                 if (commands.length > 1) {
                   const cloneData = [...consoleList];
-
-                  cloneData.push(
-                    {
-                      userInput: userInputString,
-                      output: commands.map((command) => command.name).join('\n'),
-                      path,
-                      user: commandManager.user,
-                    },
-                  );
+                  if (hint) {
+                    cloneData.push(
+                      {
+                        userInput: userInputString,
+                        output: commands.map((command) => command.name).join('\n'),
+                        path,
+                        user: commandManager.user,
+                      },
+                    );
+                  } else {
+                    setHint(true);
+                  }
 
                   setConsoleList(cloneData);
                 } else if (commands.length === 1) {
