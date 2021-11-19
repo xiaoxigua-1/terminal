@@ -49,7 +49,7 @@ export default function pathParse(
 
       if (searchNode === null) {
         if (parents) {
-          pathNodes.push(new Folder(i, []));
+          pathNodes.push(new Folder(i, [], ''));
         } else {
           return null;
         }

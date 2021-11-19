@@ -21,10 +21,10 @@ export default class CdCommand extends Command {
       } else if (directory.type !== 'Folder') {
         output = `${this.name}: ${args[0]}: No such directory`;
       } else {
-        if (directory.path[1]?.name === 'home' && directory.path[2]?.name === 'xiaoxigua') {
+        if (directory.path[1]?.name === 'home' && directory.path[2]?.name === this._commandManager.user) {
           outputPath = `~${directory.path.length > 3 ? '/' : ''}`;
           directory.path.splice(0, 3);
-        } else if (directory.path[1]?.name === 'home') {
+        } else if (directory.path[1]?.name !== undefined) {
           outputPath = '';
         } else if (directory.path[0]?.name === '') {
           outputPath = '/';
