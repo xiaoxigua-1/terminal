@@ -10,6 +10,8 @@ import CatCommand from './commands/fileSystem/cat';
 import PwdCommand from './commands/fileSystem/pwd';
 import MkdirCommand from './commands/fileSystem/mkdir';
 import ClearCommand from './commands/clear';
+import VimCommand from './commands/vim';
+import FindCommand from './commands/fileSystem/find';
 
 export default function initCommands(
   commandsManager: CommandsManager,
@@ -26,6 +28,8 @@ export default function initCommands(
     new PwdCommand(),
     new MkdirCommand(),
     new ClearCommand(),
+    new VimCommand(),
+    new FindCommand(),
   ];
 
   commands.map((value) => commandsManager.addCommand(value));

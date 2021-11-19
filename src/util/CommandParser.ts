@@ -9,8 +9,8 @@ export default class CommandParser {
     this._commandOptions = [];
   }
 
-  option(optionName: string) {
-    const commandOption = new ComandOption(`--${optionName}`);
+  option(optionName: string, beginning = '--') {
+    const commandOption = new ComandOption(`${beginning}${optionName}`);
     commandOption.args = this._args;
 
     this._commandOptions.push(commandOption);

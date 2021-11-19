@@ -11,4 +11,8 @@ export default class TextFile extends File {
   public get text(): string {
     return this._text;
   }
+
+  public set text(text: string) {
+    this._text = text;
+  }
 }
