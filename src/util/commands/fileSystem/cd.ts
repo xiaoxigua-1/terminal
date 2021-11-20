@@ -1,5 +1,4 @@
 import Command from '../../Command';
-import { CommandReturnInfo } from '../../data/CommandReturnInfo';
 import pathParse from './pathParser';
 
 export default class CdCommand extends Command {
@@ -7,7 +6,7 @@ export default class CdCommand extends Command {
     super('cd', 'directory');
   }
 
-  async run(args: string[], path: string): Promise<CommandReturnInfo> {
+  async* run(args: string[], path: string) {
     let output = '';
     let outputPath = path;
 
@@ -34,7 +33,7 @@ export default class CdCommand extends Command {
       }
     }
 
-    return {
+    yield {
       output,
       path: outputPath,
     };

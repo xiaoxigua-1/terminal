@@ -2,14 +2,16 @@ import { useState } from 'react';
 import Command from './Command';
 import NotFound from '../components/notFound';
 import Help from '../components/help';
-import { ConsoleProp } from '../components/console';
+import Console, { ConsoleProp } from '../components/console';
 
 class CommandManager {
   private _commands: Command[];
 
-  private _console: ConsoleProp[];
+  private _console: (ConsoleProp | JSX.Element | string)[];
 
-  private _setConsole!: React.Dispatch<React.SetStateAction<ConsoleProp[]>>;
+  private _setConsole!: React.Dispatch<
+    React.SetStateAction<(ConsoleProp | JSX.Element | string)[]>
+  >;
 
   private _setUser!: React.Dispatch<React.SetStateAction<string>>;
 
@@ -26,8 +28,11 @@ class CommandManager {
     this._console = [];
   }
 
-  useConsole(): [ConsoleProp[], React.Dispatch<React.SetStateAction<ConsoleProp[]>>] {
-    const [consoleArray, setConsoleArray] = useState<ConsoleProp[]>([]);
+  useConsole(): [
+    (ConsoleProp | JSX.Element | string)[],
+    React.Dispatch<React.SetStateAction<(ConsoleProp | JSX.Element | string)[]>>
+    ] {
+    const [consoleArray, setConsoleArray] = useState<(ConsoleProp | JSX.Element | string)[]>([]);
     this._console = consoleArray;
     this._setConsole = setConsoleArray;
 
@@ -61,13 +66,12 @@ class CommandManager {
 
   async runCommand(args: string, inputPath: string) {
     const cloneConsole = [...this._console];
+    cloneConsole.push(Console({
+      userInput: args,
+      path: inputPath,
+      user: this._user,
+    }));
     if (/^\s+$/.test(args) || args === '') {
-      cloneConsole.push({
-        userInput: args,
-        output: '',
-        path: inputPath,
-        user: this._user,
-      });
       return;
     }
 
@@ -77,41 +81,35 @@ class CommandManager {
     argsArray.splice(0, 1);
 
     if (name === 'help') {
-      cloneConsole.push({
-        userInput: args,
-        output: this.helpCommand(argsArray),
-        path: inputPath,
-        user: this._user,
-      });
+      cloneConsole.push(
+        this.helpCommand(argsArray),
+      );
 
       this._setConsole(cloneConsole);
       return;
     }
 
     if (searchCommand === undefined) {
-      cloneConsole.push({
-        userInput: args,
-        output: NotFound(name),
-        path: inputPath,
-        user: this._user,
-      });
+      cloneConsole.push(NotFound(name));
     } else {
       const commandReturnInfo = await searchCommand.init(argsArray, inputPath, this);
+      // eslint-disable-next-line no-restricted-syntax
+      let info = await commandReturnInfo.next();
 
-      if (!this._clear) {
-        cloneConsole.push({
-          userInput: args,
-          output: commandReturnInfo.output,
-          path: inputPath,
-          user: this._user,
-        });
+      while (!info.done) {
+        if (!this._clear) {
+          cloneConsole.push(info.value.output);
 
-        this._setPath(commandReturnInfo.path);
-      } else {
-        this._setConsole([]);
-        this._clear = false;
+          this._setPath(info.value.path);
+        } else {
+          this._setConsole([]);
+          this._clear = false;
 
-        return;
+          return;
+        }
+
+        // eslint-disable-next-line no-await-in-loop
+        info = await commandReturnInfo.next();
       }
     }
 

@@ -1,5 +1,4 @@
 import Command from '../../Command';
-import { CommandReturnInfo } from '../../data/CommandReturnInfo';
 import File from './node/file';
 import TextFile from './node/textFile';
 import pathParse from './pathParser';
@@ -9,7 +8,7 @@ export default class CatCommand extends Command {
     super('cat', '[FILE]...');
   }
 
-  async run(args: string[], path: string): Promise<CommandReturnInfo> {
+  async* run(args: string[], path: string) {
     let text = '';
 
     // eslint-disable-next-line no-restricted-syntax
@@ -29,7 +28,7 @@ export default class CatCommand extends Command {
       }
     }
 
-    return {
+    yield {
       output: text,
       path,
     };

@@ -26,7 +26,9 @@ export default abstract class Command implements CommandSetValue {
   }
 
   // eslint-disable-next-line no-unused-vars
-  abstract run(args: string[], path: string): Promise<CommandReturnInfo>
+  abstract run(args: string[], path: string): AsyncGenerator<
+    CommandReturnInfo, void, CommandReturnInfo
+  >
 
   help(): string | JSX.Element {
     return `${this._name}: ${this._info.split('\n').map(
@@ -34,11 +36,11 @@ export default abstract class Command implements CommandSetValue {
     ).join('\n')}`;
   }
 
-  async init(
+  async* init(
     args: string[],
     inputPath: string,
     commandManager: CommandManager,
-  ): Promise<CommandReturnInfo> {
+  ): AsyncGenerator<CommandReturnInfo> {
     this._commandManager = commandManager;
     this._commandParser.args = args;
     this.setValue(args);
@@ -53,7 +55,7 @@ export default abstract class Command implements CommandSetValue {
 
       this._commandParser.clearCommandOptions();
 
-      return {
+      yield {
         output: helpText,
         path: inputPath,
       };
@@ -65,7 +67,13 @@ export default abstract class Command implements CommandSetValue {
       ),
     ), inputPath);
     this._commandParser.clearCommandOptions();
-    return commandReturnInfo;
+
+    let nexCommandInfo = await commandReturnInfo.next();
+    while (!nexCommandInfo.done) {
+      yield nexCommandInfo.value;
+      // eslint-disable-next-line no-await-in-loop
+      nexCommandInfo = await commandReturnInfo.next();
+    }
   }
 
   public get name() {

@@ -1,5 +1,4 @@
 import Command from '../../Command';
-import { CommandReturnInfo } from '../../data/CommandReturnInfo';
 import pathParse from './pathParser';
 
 export default class PwdCommand extends Command {
@@ -7,10 +6,10 @@ export default class PwdCommand extends Command {
     super('pwd', 'working directory');
   }
 
-  async run(args: string[], path: string): Promise<CommandReturnInfo> {
+  async* run(args: string[], path: string) {
     const workingDirectory = pathParse(path, '.')?.path.map((p) => p.name).join('/');
 
-    return {
+    yield {
       output: workingDirectory || '/',
       path,
     };

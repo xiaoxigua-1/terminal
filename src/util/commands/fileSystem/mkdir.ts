@@ -1,5 +1,4 @@
 import Command from '../../Command';
-import { CommandReturnInfo } from '../../data/CommandReturnInfo';
 import pathParse from './pathParser';
 import fileTree, { mkdir } from './tree';
 
@@ -17,7 +16,7 @@ export default class MkdirCommand extends Command {
     this._verbose = this._commandParser.option('verbose').alias('-v').tag().value as boolean;
   }
 
-  async run(args: string[], path: string): Promise<CommandReturnInfo> {
+  async* run(args: string[], path: string) {
     let outputText = '';
     // eslint-disable-next-line no-restricted-syntax
     for (const inputPath of args) {
@@ -44,7 +43,7 @@ export default class MkdirCommand extends Command {
       }
     }
 
-    return {
+    yield {
       output: outputText,
       path,
     };

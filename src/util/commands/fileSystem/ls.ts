@@ -1,5 +1,4 @@
 import Command from '../../Command';
-import { CommandReturnInfo } from '../../data/CommandReturnInfo';
 import { PathData } from './data/returnPathData';
 import Ls from '../../../components/ls';
 import pathParse from './pathParser';
@@ -9,7 +8,7 @@ export default class LsCommand extends Command {
     super('ls', '[FILE]');
   }
 
-  async run(args: string[], path: string): Promise<CommandReturnInfo> {
+  async* run(args: string[], path: string) {
     const paths: Array<PathData | null> = [];
 
     if (args.length === 0) {
@@ -21,7 +20,7 @@ export default class LsCommand extends Command {
       paths.push(pathParse(path, i));
     }
 
-    return {
+    yield {
       output: Ls(paths, args),
       path,
     };

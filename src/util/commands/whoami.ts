@@ -1,5 +1,4 @@
 import Command from '../Command';
-import { CommandReturnInfo } from '../data/CommandReturnInfo';
 
 export default class EchoCommand extends Command {
   private value: string[] = [];
@@ -8,8 +7,8 @@ export default class EchoCommand extends Command {
     super('whoami', 'Show user name');
   }
 
-  async run(args: string[], path: string): Promise<CommandReturnInfo> {
-    return {
+  async* run(args: string[], path: string) {
+    yield {
       output: this._commandManager.user,
       path,
     };

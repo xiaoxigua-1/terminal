@@ -1,5 +1,4 @@
 import Command from '../../Command';
-import { CommandReturnInfo } from '../../data/CommandReturnInfo';
 import Folder from './node/folder';
 import Node from './data/node';
 import pathParse from './pathParser';
@@ -21,19 +20,20 @@ export default class PwdCommand extends Command {
     this._fileType = this._commandParser.option('type', '-').value as string[];
   }
 
-  async run(args: string[], path: string): Promise<CommandReturnInfo> {
+  async* run(args: string[], path: string) {
     if (args.length === 0) {
       args.push('.');
     }
-
-    let outputText = '';
 
     // eslint-disable-next-line no-restricted-syntax
     for (const searchPath of args) {
       const search = pathParse(path, searchPath)?.path;
 
       if (search === undefined) {
-        outputText += `find: ${searchPath}: No such file or directory`;
+        yield {
+          output: `find: ${searchPath}: No such file or directory`,
+          path,
+        };
       } else {
         const filesOrDirectorys = [[search[search.length - 1]]];
         const nodes = [search[search.length - 1]];
@@ -76,53 +76,46 @@ export default class PwdCommand extends Command {
           if (filesOrDirectorys.filter(
             (fOrD) => (fOrD.map((p) => p.name).toString() === nodes.map((p) => p.name).toString()),
           ).length === 0) {
+            let fileTypeSwitch = true;
+            let nameSwitch = true;
+            let inameSwitch = true;
+            // 檔案類型比對
+            // eslint-disable-next-line no-restricted-syntax
+            for (const fileType of this._fileType) {
+              fileTypeSwitch = nodes[nodes.length - 1].type === (
+                // eslint-disable-next-line no-nested-ternary
+                fileType === 'f' ? 'File' : fileType === 'd' ? 'Folder' : ''
+              );
+            }
+
+            // 完全相同比對
+            // eslint-disable-next-line no-restricted-syntax
+            for (const name of this._valueName) {
+              // eslint-disable-next-line no-loop-func
+              nodes.forEach((nodeName) => {
+                nameSwitch = new RegExp(`^${name.replaceAll('*', '.+')}$`).test(nodeName.name);
+              });
+            }
+
+            // 不分大小寫比對
+            // eslint-disable-next-line no-restricted-syntax
+            for (const iname of this._iname) {
+              // eslint-disable-next-line no-loop-func
+              nodes.forEach((nodeName) => {
+                inameSwitch = new RegExp(`^${iname.replaceAll('*', '.+')}$`, 'gi').test(nodeName.name);
+              });
+            }
+
+            if (fileTypeSwitch && nameSwitch && inameSwitch) {
+              yield {
+                output: `${nodes.map((nodeName) => (nodeName.name)).join('/')}\n`,
+                path,
+              };
+            }
             filesOrDirectorys.push([...nodes]);
           }
         }
-
-        let paths: Node[][] | string[][] = filesOrDirectorys;
-
-        // 檔案類型比對
-        // eslint-disable-next-line no-restricted-syntax
-        for (const fileType of this._fileType) {
-          paths = paths.filter((pathArray) => (
-            pathArray[pathArray.length - 1]?.type === (
-              // eslint-disable-next-line no-nested-ternary
-              fileType === 'f' ? 'File' : fileType === 'd' ? 'Folder' : ''
-            )
-          ));
-        }
-
-        paths = paths.map((p) => p.map((c) => c.name));
-
-        // 完全相同比對
-        // eslint-disable-next-line no-restricted-syntax
-        for (const name of this._valueName) {
-          paths = paths.filter((pathArray) => pathArray.find((nodeName) => (
-            new RegExp(`^${name.replaceAll('*', '.+')}$`).test(nodeName)
-          )));
-        }
-
-        // 不分大小寫比對
-        // eslint-disable-next-line no-restricted-syntax
-        for (const iname of this._iname) {
-          paths = paths.filter((pathArray) => (
-            pathArray.find((nodeName) => new RegExp(`^${iname.replaceAll('*', '.+')}$`, 'gi').test(nodeName))
-          ));
-        }
-
-        outputText += paths.map((pathArray) => {
-          if (pathArray.length === 1 && pathArray[0] === '') {
-            return '/';
-          }
-          return pathArray.join('/');
-        }).join('\n');
       }
     }
-
-    return {
-      output: outputText,
-      path,
-    };
   }
 }

@@ -1,7 +1,6 @@
 import axios, { Method } from 'axios';
 import Command from '../Command';
 import Error from '../../components/error';
-import { CommandReturnInfo } from '../data/CommandReturnInfo';
 
 export default class CurlCommand extends Command {
   private _method: Method[] = [];
@@ -19,7 +18,7 @@ export default class CurlCommand extends Command {
       .value as Method[];
   }
 
-  async run(args: string[], path: string): Promise<CommandReturnInfo> {
+  async* run(args: string[], path: string) {
     const url = args[args.length - 1];
 
     try {
@@ -28,12 +27,12 @@ export default class CurlCommand extends Command {
         url,
       });
 
-      return {
+      yield {
         output: response.data,
         path,
       };
     } catch (error) {
-      return {
+      yield {
         output: Error((error as Error).toString()),
         path,
       };

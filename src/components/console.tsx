@@ -1,7 +1,6 @@
 export interface ConsoleProp {
   userInput: string;
   path: string;
-  output: string | JSX.Element;
   user: string;
 }
 
@@ -11,7 +10,6 @@ export interface ConsoleProp {
  */
 function Console({
   userInput,
-  output,
   path,
   user,
 }: ConsoleProp): JSX.Element {
@@ -30,7 +28,6 @@ function Console({
         {userInput.replaceAll(' ', '\u00a0')}
       </span>
       {userInput !== '' ? <br /> : null}
-      <span className="text-white whitespace-pre-line break-all">{output}</span>
     </div>
   );
 }

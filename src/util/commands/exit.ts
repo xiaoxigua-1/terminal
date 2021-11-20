@@ -1,14 +1,13 @@
 import Command from '../Command';
-import { CommandReturnInfo } from '../data/CommandReturnInfo';
 
 export default class ExitCommand extends Command {
   constructor() {
     super('exit', 'exit tab');
   }
 
-  async run(args: string[], path: string): Promise<CommandReturnInfo> {
+  async* run(args: string[], path: string) {
     window.close();
-    return {
+    yield {
       output: `${this.name}`,
       path,
     };

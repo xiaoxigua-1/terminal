@@ -1,5 +1,4 @@
 import Command from '../Command';
-import { CommandReturnInfo } from '../data/CommandReturnInfo';
 import Vim from '../../components/vim';
 
 export default class ClearCommand extends Command {
@@ -7,10 +6,10 @@ export default class ClearCommand extends Command {
     super('vim', 'file');
   }
 
-  async run(args: string[], path: string): Promise<CommandReturnInfo> {
+  async* run(args: string[], path: string) {
     // clear console
 
-    return {
+    yield {
       output: Vim('a', () => true),
       path,
     };

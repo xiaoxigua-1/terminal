@@ -70,20 +70,14 @@ function Terminal(): JSX.Element {
 
   return (
     <div
-      className="w-full min-h-screen bg-black scr text-xl cursor-text"
+      className="w-full min-h-screen bg-black scr text-xl cursor-text text-white"
       aria-hidden="true"
       onClick={() => {
         document.getElementById('userInput')?.focus();
       }}
     >
       {consoleList.map((value, index) => (
-        <Console
-          key={index.toString()}
-          userInput={value.userInput}
-          output={value.output}
-          path={value.path}
-          user={value.user}
-        />
+        <span key={index.toString()} className="whitespace-pre-line">{value}</span>
       ))}
       <input
         id="userInput"
@@ -129,14 +123,15 @@ function Terminal(): JSX.Element {
                   const cloneData = [...consoleList];
 
                   if (hint) {
-                    cloneData.push(
+                    cloneData.push(Console(
                       {
                         userInput: userInputString,
-                        output: commands.map((command) => command.name).join('\n'),
                         path,
                         user: commandManager.user,
                       },
-                    );
+                    ));
+
+                    cloneData.push(commands.map((command) => command.name).join('\n'));
                   } else {
                     setHint(true);
                   }
