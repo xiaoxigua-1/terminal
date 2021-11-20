@@ -77,7 +77,7 @@ function Terminal(): JSX.Element {
       }}
     >
       {consoleList.map((value, index) => (
-        <pre key={index.toString()} className="whitespace-pre-wrap break-all">{value}</pre>
+        <span key={index.toString()} className="whitespace-pre-wrap break-all">{value}</span>
       ))}
       <input
         id="userInput"
