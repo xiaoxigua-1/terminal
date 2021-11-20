@@ -24,8 +24,8 @@ function Console({
         {path}
         $
       </span>
-      <span className="text-white pl-2 whitespace-pre-line break-all">
-        {userInput.replaceAll(' ', '\u00a0')}
+      <span className="text-white pl-2 whitespace-pre-wrap break-all">
+        {userInput}
       </span>
       {userInput !== '' ? <br /> : null}
     </div>

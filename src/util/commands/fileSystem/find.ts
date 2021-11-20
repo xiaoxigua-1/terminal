@@ -112,6 +112,7 @@ export default class PwdCommand extends Command {
                 path,
               };
             }
+
             filesOrDirectorys.push([...nodes]);
           }
         }

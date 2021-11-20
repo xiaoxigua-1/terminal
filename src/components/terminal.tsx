@@ -77,7 +77,7 @@ function Terminal(): JSX.Element {
       }}
     >
       {consoleList.map((value, index) => (
-        <span key={index.toString()} className="whitespace-pre-line">{value}</span>
+        <pre key={index.toString()} className="whitespace-pre-wrap break-all">{value}</pre>
       ))}
       <input
         id="userInput"
@@ -159,14 +159,14 @@ function Terminal(): JSX.Element {
           $
         </span>
         <span className="text-white relative w-auto break-all">
-          <span className="pl-2 text-white relative w-auto break-all whitespace-pre-line">
-            {userInputString.slice(0, userSelect.start).replaceAll(' ', '\u00a0')}
+          <span className="pl-2 text-white relative w-auto break-all whitespace-pre-wrap">
+            {userInputString.slice(0, userSelect.start)}
           </span>
-          <span className="animate-caret bg-white w-auto min-w-2  bottom-0 text-black whitespace-pre-line">
-            {userInputString.slice(userSelect.start, userSelect.end + 1).replaceAll(' ', '\u00a0') || '\u00a0'}
+          <span className="animate-caret bg-white w-auto min-w-2  bottom-0 text-black whitespace-pre-wrap">
+            {userInputString.slice(userSelect.start, userSelect.end + 1) || ' '}
           </span>
-          <span className="whitespace-pre-line break-all">
-            {userInputString.slice(userSelect.end + 1, userInputString.length).replaceAll(' ', '\u00a0')}
+          <span className="whitespace-pre-wrap break-all">
+            {userInputString.slice(userSelect.end + 1, userInputString.length)}
           </span>
         </span>
       </div>

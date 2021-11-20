@@ -149,7 +149,7 @@ class CommandManager {
             }
 
             if (/\S/.test(str)) {
-              argsArray.push(str.replaceAll(' ', '\u00a0'));
+              argsArray.push(str);
             }
 
             str = '';
@@ -179,7 +179,7 @@ class CommandManager {
       }
     }
     if (/\S/.test(str)) {
-      argsArray.push(str.replaceAll(' ', '\u00a0'));
+      argsArray.push(str);
     }
 
     return argsArray;
