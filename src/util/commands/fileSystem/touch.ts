@@ -4,7 +4,7 @@ import tree, { mkdir } from './tree';
 
 export default class TouchCommand extends Command {
   constructor() {
-    super('touch', 'working directory');
+    super('touch', '[file...]');
   }
 
   async* run(args: string[], path: string) {
