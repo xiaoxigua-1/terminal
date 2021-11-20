@@ -1,6 +1,7 @@
 import Folder from './node/folder';
 import TextFile from './node/textFile';
 import Node from './data/node';
+import { FileType } from './data/fileType';
 
 const fileTree = new Folder('', [
   new Folder('home', [
@@ -19,6 +20,8 @@ export function mkdir(
   index: number,
   parents = false,
   user: string,
+  type: FileType | 'folder' = 'folder',
+  content = '',
 ): Node[] | null | 'no' {
   const findNode = nodes.find(
     (node) => node.name === path[index] && node.type === 'Folder',
@@ -26,9 +29,13 @@ export function mkdir(
 
   if (findNode === undefined) {
     if (index === path.length - 1) {
-      nodes.push(new Folder(path[index], [], user));
+      if (type === 'folder') {
+        nodes.push(new Folder(path[index], [], user));
+      } else if (type === 'text') {
+        nodes.push(new TextFile(path[index], content, user));
+      }
     } else if (parents) {
-      const returnNodes = mkdir(path, [], index + 1, parents, user);
+      const returnNodes = mkdir(path, [], index + 1, parents, user, type, content);
 
       if (returnNodes !== null && returnNodes !== 'no') {
         nodes.push(new Folder(path[index], returnNodes, user));
@@ -39,7 +46,7 @@ export function mkdir(
   } else {
     if (index === path.length - 1) return null;
     const findNodeIndex = nodes.indexOf(findNode);
-    const returnNodes = mkdir(path, findNode.nodes, index + 1, parents, user);
+    const returnNodes = mkdir(path, findNode.nodes, index + 1, parents, user, type, content);
 
     if (returnNodes !== null && returnNodes !== 'no') {
       // eslint-disable-next-line no-param-reassign

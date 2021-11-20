@@ -1,5 +1,6 @@
 import fileTree from './tree';
 import Folder from './node/folder';
+import Node from './data/node';
 import { PathData } from './data/returnPathData';
 
 export default function pathParse(
@@ -10,7 +11,7 @@ export default function pathParse(
   let pathArray = path.split('/');
   let start = fileTree;
   const directoryArray = directory.split('/');
-  const pathNodes: Folder[] = [fileTree];
+  const pathNodes: Node[] = [fileTree];
 
   if (pathArray[0] === '~') {
     pathArray.splice(0, 1);
@@ -43,13 +44,13 @@ export default function pathParse(
       if (pathNodes.length > 1) {
         pathNodes.splice(pathNodes.length - 1, 1);
       }
-      start = pathNodes[pathNodes.length - 1];
+      start = pathNodes[pathNodes.length - 1] as Folder;
     } else if (i !== '.' && i !== '') {
-      const searchNode = pathNodes[pathNodes.length - 1].searchNode(i);
+      const searchNode = (pathNodes[pathNodes.length - 1] as Folder).searchNode(i);
 
       if (searchNode === null) {
         if (parents) {
-          pathNodes.push(new Folder(i, [], ''));
+          pathNodes.push(new Node(i, 'none', 'xiaoxigua'));
         } else {
           return null;
         }

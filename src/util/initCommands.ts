@@ -12,6 +12,7 @@ import MkdirCommand from './commands/fileSystem/mkdir';
 import ClearCommand from './commands/clear';
 import VimCommand from './commands/vim';
 import FindCommand from './commands/fileSystem/find';
+import TouchCommand from './commands/fileSystem/touch';
 
 export default function initCommands(
   commandsManager: CommandsManager,
@@ -30,6 +31,7 @@ export default function initCommands(
     new ClearCommand(),
     new VimCommand(),
     new FindCommand(),
+    new TouchCommand(),
   ];
 
   commands.map((value) => commandsManager.addCommand(value));
