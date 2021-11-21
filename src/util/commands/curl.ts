@@ -36,7 +36,7 @@ export default class CurlCommand extends Command {
       yield {
         output: Error((error as Error).toString()),
         path,
-        error: false,
+        error: true,
       };
     }
   }

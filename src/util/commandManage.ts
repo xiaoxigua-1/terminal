@@ -78,7 +78,7 @@ class CommandManager {
     const argsArray = this.commandHandler(args);
     const name = argsArray[0];
     const searchCommand = this._commands.find((command) => command.name === name);
-    console.log(argsArray);
+
     argsArray.splice(0, 1);
 
     if (name === 'help') {
@@ -101,11 +101,10 @@ class CommandManager {
         if (!this._clear) {
           cloneConsole.push(info.value.output);
 
+          this._setConsole([...cloneConsole]);
           this._setPath(info.value.path);
         } else {
-          this._setConsole([]);
           this._clear = false;
-
           return;
         }
 

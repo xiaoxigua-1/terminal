@@ -80,6 +80,7 @@ export default class PwdCommand extends Command {
             let fileTypeSwitch = true;
             let nameSwitch = true;
             let inameSwitch = true;
+
             // 檔案類型比對
             // eslint-disable-next-line no-restricted-syntax
             for (const fileType of this._fileType) {
