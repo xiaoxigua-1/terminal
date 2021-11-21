@@ -30,11 +30,13 @@ export default class CurlCommand extends Command {
       yield {
         output: response.data,
         path,
+        error: false,
       };
     } catch (error) {
       yield {
         output: Error((error as Error).toString()),
         path,
+        error: false,
       };
     }
   }

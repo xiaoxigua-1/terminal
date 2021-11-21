@@ -9,6 +9,7 @@ export default class InfoCommand extends Command {
     yield {
       output: `hi this is ${this.name}`,
       path,
+      error: false,
     };
   }
 }

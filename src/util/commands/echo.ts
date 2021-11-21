@@ -11,6 +11,7 @@ export default class EchoCommand extends Command {
     yield {
       output: args.join(' '),
       path,
+      error: false,
     };
   }
 }

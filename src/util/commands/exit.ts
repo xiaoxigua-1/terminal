@@ -10,6 +10,7 @@ export default class ExitCommand extends Command {
     yield {
       output: `${this.name}`,
       path,
+      error: false,
     };
   }
 }

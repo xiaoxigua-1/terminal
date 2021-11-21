@@ -33,6 +33,7 @@ export default class PwdCommand extends Command {
         yield {
           output: `find: ${searchPath}: No such file or directory`,
           path,
+          error: false,
         };
       } else {
         const filesOrDirectorys = [[search[search.length - 1]]];
@@ -110,6 +111,7 @@ export default class PwdCommand extends Command {
               yield {
                 output: `${nodes.map((nodeName) => (nodeName.name)).join('/')}\n`,
                 path,
+                error: false,
               };
             }
 

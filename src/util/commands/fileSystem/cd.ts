@@ -36,6 +36,7 @@ export default class CdCommand extends Command {
     yield {
       output,
       path: outputPath,
+      error: false,
     };
   }
 }

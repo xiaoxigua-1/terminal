@@ -78,6 +78,7 @@ class CommandManager {
     const argsArray = this.commandHandler(args);
     const name = argsArray[0];
     const searchCommand = this._commands.find((command) => command.name === name);
+    console.log(argsArray);
     argsArray.splice(0, 1);
 
     if (name === 'help') {
@@ -136,12 +137,59 @@ class CommandManager {
     let colon = false;
     let colonStr = '';
     let backslash = false;
+    let token = false;
 
     // eslint-disable-next-line no-restricted-syntax
     for (const i of args) {
       switch (i) {
-        case ' ':
+        case '\'':
+        case '"':
           if (!colon) {
+            colonStr = i;
+            colon = true;
+          } else if (colonStr === i) {
+            colon = false;
+          } else {
+            str += i;
+          }
+
+          if (token) {
+            argsArray.push(str);
+            str = '';
+          }
+
+          token = false;
+          break;
+        case '\\':
+          if (backslash) str += i;
+          if (!colon) backslash = true;
+          if (token) {
+            argsArray.push(str);
+            str = '';
+          }
+
+          token = false;
+          break;
+        case '|':
+        case '>':
+        case '&':
+          if (!colon && !backslash) {
+            if (!token) {
+              argsArray.push(str);
+              str = i;
+              token = true;
+            } else {
+              str += i;
+              argsArray.push(str);
+              str = '';
+              token = false;
+            }
+          } else {
+            str += i;
+          }
+          break;
+        default:
+          if (!colon && i === ' ') {
             if (backslash) {
               str += i;
               backslash = false;
@@ -155,29 +203,17 @@ class CommandManager {
             str = '';
             break;
           }
-          str += i;
-          break;
-        case '\'':
-        case '"':
-          if (!colon) {
-            colonStr = i;
-            colon = true;
-          } else if (colonStr === i) {
-            colon = false;
-          } else {
-            str += i;
-          }
 
-          break;
-        case '\\':
-          if (backslash) str += i;
-          if (!colon) backslash = true;
-          break;
-        default:
+          if (token) {
+            argsArray.push(str);
+            str = '';
+          }
           str += i;
+          token = false;
           break;
       }
     }
+
     if (/\S/.test(str)) {
       argsArray.push(str);
     }

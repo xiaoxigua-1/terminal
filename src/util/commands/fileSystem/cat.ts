@@ -31,6 +31,7 @@ export default class CatCommand extends Command {
     yield {
       output: text,
       path,
+      error: false,
     };
   }
 }

@@ -25,12 +25,14 @@ export default class LsCommand extends Command {
           yield {
             output: ColorText(`${node.name}\n`, (node.type === 'File' ? '' : '#12488B')),
             path,
+            error: false,
           };
         }
       } else {
         yield {
           output: `ls: ${i}: No such file or directory`,
           path,
+          error: false,
         };
       }
     }

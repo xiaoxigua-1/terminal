@@ -58,6 +58,7 @@ export default abstract class Command implements CommandSetValue {
       yield {
         output: helpText,
         path: inputPath,
+        error: false,
       };
     }
 

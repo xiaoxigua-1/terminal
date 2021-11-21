@@ -12,6 +12,7 @@ export default class ClearCommand extends Command {
     yield {
       output: Vim('a', () => true),
       path,
+      error: false,
     };
   }
 }

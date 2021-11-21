@@ -20,6 +20,7 @@ export default class TouchCommand extends Command {
           yield {
             output: `touch: ${file}: Not a directory`,
             path,
+            error: false,
           };
         }
       }

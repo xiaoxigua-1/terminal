@@ -11,6 +11,7 @@ export default class EchoCommand extends Command {
     yield {
       output: this._commandManager.user,
       path,
+      error: false,
     };
   }
 }

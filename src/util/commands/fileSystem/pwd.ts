@@ -12,6 +12,7 @@ export default class PwdCommand extends Command {
     yield {
       output: workingDirectory || '/',
       path,
+      error: false,
     };
   }
 }

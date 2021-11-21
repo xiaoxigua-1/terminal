@@ -46,6 +46,7 @@ export default class MkdirCommand extends Command {
     yield {
       output: outputText,
       path,
+      error: false,
     };
   }
 }

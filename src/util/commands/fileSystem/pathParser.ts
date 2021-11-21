@@ -50,7 +50,7 @@ export default function pathParse(
 
       if (searchNode === null) {
         if (parents) {
-          pathNodes.push(new Node(i, 'none', 'xiaoxigua'));
+          pathNodes.push(new Folder(i, [], 'xiaoxigua'));
         } else {
           return null;
         }
