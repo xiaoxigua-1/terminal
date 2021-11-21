@@ -14,7 +14,7 @@ const fileTree = new Folder('', [
 
 export default fileTree;
 
-export function mkdir(
+export function make(
   path: string[],
   nodes: Node[],
   index: number,
@@ -35,7 +35,7 @@ export function mkdir(
         nodes.push(new TextFile(path[index], content, user));
       }
     } else if (parents) {
-      const returnNodes = mkdir(path, [], index + 1, parents, user, type, content);
+      const returnNodes = make(path, [], index + 1, parents, user, type, content);
 
       if (returnNodes !== null && returnNodes !== 'no') {
         nodes.push(new Folder(path[index], returnNodes, user));
@@ -46,7 +46,7 @@ export function mkdir(
   } else {
     if (index === path.length - 1) return null;
     const findNodeIndex = nodes.indexOf(findNode);
-    const returnNodes = mkdir(path, findNode.nodes, index + 1, parents, user, type, content);
+    const returnNodes = make(path, findNode.nodes, index + 1, parents, user, type, content);
 
     if (returnNodes !== null && returnNodes !== 'no') {
       // eslint-disable-next-line no-param-reassign

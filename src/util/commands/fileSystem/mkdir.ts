@@ -1,6 +1,6 @@
 import Command from '../../Command';
 import pathParse from './pathParser';
-import fileTree, { mkdir } from './tree';
+import fileTree, { make } from './tree';
 
 export default class MkdirCommand extends Command {
   private _parents = false;
@@ -23,7 +23,7 @@ export default class MkdirCommand extends Command {
       // eslint-disable-next-line no-restricted-syntax
       const pathString = pathParse(path, inputPath, true)?.path.map((p) => p.name);
       if (pathString !== undefined) {
-        const mkdirNodes = mkdir(
+        const mkdirNodes = make(
           pathString.slice(1, pathString.length),
           fileTree.nodes, 0,
           this._parents,
