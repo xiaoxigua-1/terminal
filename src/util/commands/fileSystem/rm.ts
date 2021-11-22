@@ -10,7 +10,7 @@ export default class RmCommand extends Command {
   private _f = false;
 
   constructor() {
-    super('rm', 'working directory');
+    super('rm', '[option...] [file...]');
   }
 
   setValue() {
