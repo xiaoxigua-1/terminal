@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { CommandReturnInfo } from './data/CommandReturnInfo';
 import CommandParser from './CommandParser';
 import CommandManager from './commandManage';
@@ -45,8 +46,23 @@ export default abstract class Command implements CommandSetValue {
     this._commandParser.args = args;
     this.setValue(args);
     const help = this._commandParser.option('help').alias('-h').tag().value;
+    const notUsedOptions = args.filter(
+      (arg, index) => (
+        this._commandParser.used.find((used) => used.includes(index)) === undefined && /^-+.+$/.test(arg)
+      ),
+    );
 
-    if (help) {
+    if (notUsedOptions.length) {
+      for (const option of notUsedOptions) {
+        yield {
+          output: `${this._name}: unrecognized option ${(option.match(/[^-]+/) as string[])[0]}\n`,
+          path: inputPath,
+          error: false,
+        };
+      }
+    }
+
+    if (help || notUsedOptions.length) {
       const helpText = `Usage: ${this._name} ${this._info}\n${
         this._commandParser.commandOptions.map((value) => (
           `\u00a0\u00a0\u00a0\u00a0${value.helpData.name} ${value.helpData.type} ${value.helpData.help}`
@@ -63,9 +79,7 @@ export default abstract class Command implements CommandSetValue {
     }
 
     const commandReturnInfo = await this.run(args.filter(
-      (_arg, index) => (
-        this._commandParser.used.find((used) => used.includes(index)) === undefined
-      ),
+      (arg) => (!/^-+.+$/.test(arg)),
     ), inputPath);
     this._commandParser.clearCommandOptions();
 
