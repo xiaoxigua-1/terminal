@@ -12,8 +12,8 @@ export default class RmCommand extends Command {
   }
 
   setValue() {
-    this._r = this._commandParser.option('').alias('-r').tag().value as boolean;
-    this._d = this._commandParser.option('').alias('-d').tag().value as boolean;
+    this._r = this._commandParser.option('recursive').alias('-r').tag().value as boolean;
+    this._d = this._commandParser.option('dir').alias('-d').tag().value as boolean;
   }
 
   async* run(args: string[], path: string) {
