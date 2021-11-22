@@ -3,8 +3,17 @@ import pathParse from './pathParser';
 import { rm } from './tree';
 
 export default class RmCommand extends Command {
+  private _r = false;
+
+  private _d = false;
+
   constructor() {
     super('rm', 'working directory');
+  }
+
+  setValue() {
+    this._r = this._commandParser.option('').alias('-r').tag().value as boolean;
+    this._d = this._commandParser.option('').alias('-d').tag().value as boolean;
   }
 
   async* run(args: string[], path: string) {
@@ -13,10 +22,14 @@ export default class RmCommand extends Command {
       const rmPath = pathParse(path, inputPath)?.path.map((p) => p.name);
 
       if (rmPath) {
-        rm(rmPath);
+        yield {
+          output: rm(rmPath, inputPath, this._r, this._d),
+          path,
+          error: false,
+        };
       } else {
         yield {
-          output: `rm: can't remove '${inputPath}': No such file or directory`,
+          output: `rm: can't remove '${inputPath}': No such file or directory\n`,
           path,
           error: false,
         };

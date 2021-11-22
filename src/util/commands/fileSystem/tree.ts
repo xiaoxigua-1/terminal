@@ -59,22 +59,49 @@ export function make(
   return nodes;
 }
 
-export function rm(path: string[], _r = false) {
+export function rm(path: string[], pathString: string, r: boolean, d: boolean): string {
   const nodesRecord: Folder[] = [fileTree];
   let node: Folder = fileTree.searchNode(path[1]) as Folder;
   let index = 2;
 
+  // 路徑上的個節點
   while (path[index] !== undefined && index < path.length - 1) {
     node = (node as Folder).searchNode(path[index]) as Folder;
     index += 1;
     nodesRecord.push(node as Folder);
   }
 
+  // 要刪除的節點
   const endNode = (node as Folder).searchNode(path[index]);
 
+  // 節點類型
   if (endNode?.type === 'Folder') {
-    // idk
-  } else if (endNode?.type === 'File') {
+    if (d) {
+      if ((endNode as Folder).nodes.length !== 0) {
+        return `rm: cannot remove '${pathString}': Directory not empty\n`;
+      }
+
+      const { nodes } = node;
+      nodes.splice(nodes.indexOf(endNode), 1);
+      nodesRecord[nodesRecord.length - 1].nodes = nodes;
+      node = nodesRecord[nodesRecord.length - 1];
+
+      for (let i = nodesRecord.length - 2; i >= 0; i -= 1) {
+        nodesRecord[i].nodes[nodesRecord[i].nodes.indexOf(node)] = node;
+        node = nodesRecord[i];
+      }
+
+      return '';
+    }
+
+    if (r) {
+      return 'asd';
+    }
+
+    return `rm: '${pathString}' is a directory\n`;
+  }
+
+  if (endNode?.type === 'File') {
     const { nodes } = node;
     nodes.splice(nodes.indexOf(endNode), 1);
     nodesRecord[nodesRecord.length - 1].nodes = nodes;
@@ -85,4 +112,6 @@ export function rm(path: string[], _r = false) {
       node = nodesRecord[i];
     }
   }
+
+  return '';
 }
