@@ -59,7 +59,13 @@ export function make(
   return nodes;
 }
 
-export function rm(path: string[], pathString: string, r: boolean, d: boolean): string {
+export function rm(
+  path: string[],
+  pathString: string,
+  r: boolean,
+  d: boolean,
+  f: boolean,
+): string {
   const nodesRecord: Folder[] = [fileTree];
   let node: Folder = fileTree.searchNode(path[1]) as Folder;
   let index = 2;
@@ -78,7 +84,7 @@ export function rm(path: string[], pathString: string, r: boolean, d: boolean): 
   if (endNode?.type === 'Folder') {
     if (d) {
       if ((endNode as Folder).nodes.length !== 0) {
-        return `rm: cannot remove '${pathString}': Directory not empty\n`;
+        return f ? '' : `rm: cannot remove '${pathString}': Directory not empty\n`;
       }
 
       const { nodes } = node;

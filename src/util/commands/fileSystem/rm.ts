@@ -7,13 +7,19 @@ export default class RmCommand extends Command {
 
   private _d = false;
 
+  private _f = false;
+
   constructor() {
     super('rm', 'working directory');
   }
 
   setValue() {
-    this._r = this._commandParser.option('recursive').alias('-r').tag().value as boolean;
-    this._d = this._commandParser.option('dir').alias('-d').tag().value as boolean;
+    this._r = this._commandParser.option('recursive')
+      .alias('-r', '-rf').tag().value as boolean;
+    this._d = this._commandParser.option('dir')
+      .alias('-d', '-df').tag().value as boolean;
+    this._f = this._commandParser.option('force')
+      .alias('-f', '-rf', '-df').tag().value as boolean;
   }
 
   async* run(args: string[], path: string) {
@@ -23,11 +29,11 @@ export default class RmCommand extends Command {
 
       if (rmPath) {
         yield {
-          output: rm(rmPath, inputPath, this._r, this._d),
+          output: rm(rmPath, inputPath, this._r, this._d, this._f),
           path,
           error: false,
         };
-      } else {
+      } else if (!this._f) {
         yield {
           output: `rm: can't remove '${inputPath}': No such file or directory\n`,
           path,
