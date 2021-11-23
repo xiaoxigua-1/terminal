@@ -166,8 +166,8 @@ function Terminal(): JSX.Element {
         </span>
         <span className="text-blue-500 break-all">
           {path}
-          $
         </span>
+        <span className="text-gray-100">$</span>
         <span className="text-white relative w-auto break-all">
           <span className="pl-2 text-white relative w-auto break-all whitespace-pre-wrap">
             {userInputString.slice(0, userSelect.start)}

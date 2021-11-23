@@ -22,8 +22,8 @@ function Console({
       </span>
       <span className="text-blue-500 break-all">
         {path}
-        $
       </span>
+      <span className="text-gray-100">$</span>
       <span className="text-white pl-2 whitespace-pre-wrap break-all">
         {userInput}
       </span>
