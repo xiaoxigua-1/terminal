@@ -110,7 +110,7 @@ export default class PwdCommand extends Command {
 
             if (fileTypeSwitch && nameSwitch && inameSwitch) {
               yield {
-                output: `${nodes.map((nodeName) => (nodeName.name)).join('/')}\n`,
+                output: `${nodes.map((nodeName) => (nodeName.name)).join('/')}`,
                 path,
                 error: false,
               };

@@ -46,7 +46,7 @@ export default class RmCommand extends Command {
         };
       } else if (!this._f) {
         yield {
-          output: `rm: can't remove '${inputPath}': No such file or directory\n`,
+          output: `rm: can't remove '${inputPath}': No such file or directory`,
           path,
           error: true,
         };

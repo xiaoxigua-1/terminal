@@ -83,7 +83,7 @@ export default abstract class Command implements CommandSetValue {
     }
 
     const commandReturnInfo = this.run(args.filter(
-      (arg) => (!/^-+.+$/.test(arg)),
+      (arg, index) => (!/^-+.+$/.test(arg) && !this._optionsParser.used.find((optionUsed) => optionUsed.includes(index))),
     ), inputPath);
 
     this._optionsParser.clearCommandOptions();

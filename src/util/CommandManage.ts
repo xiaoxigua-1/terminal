@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Command from './Command';
-import Help from '../components/help';
 import CommandParser from './CommandParser';
 import Console, { ConsoleProp } from '../components/console';
 
@@ -83,7 +82,10 @@ class CommandManager {
     let commandInfo = await info.next();
 
     while (!commandInfo.done) {
-      cloneConsole.push(commandInfo.value.output);
+      if (commandInfo.value.output !== '') {
+        cloneConsole.push(`${commandInfo.value.output}\n`);
+      }
+
       if (this._clear) {
         cloneConsole = [];
         this._clear = false;
@@ -98,7 +100,7 @@ class CommandManager {
     const commandName = args[0];
 
     if (commandName === undefined) {
-      return Help(this._commands);
+      return this._commands.map((command) => command.help()).join('\n');
     }
 
     const searchCommand = this._commands.find((command) => command.name === commandName);
@@ -142,16 +144,18 @@ class CommandManager {
           if (!colon) backslash = true;
           if (token) {
             argsArray.push(str);
+            token = false;
             str = '';
           }
-
-          token = false;
           break;
         case '|':
         case '>':
         case '&':
           if (!colon && !backslash) {
             if (!token) {
+              if (/\S/.test(str) && str !== '') {
+                argsArray.push(str);
+              }
               str = i;
               token = true;
             } else {
@@ -172,20 +176,22 @@ class CommandManager {
               break;
             }
 
-            if (/\S/.test(str)) {
+            if (/\S/.test(str) && str !== '') {
               argsArray.push(str);
             }
 
             str = '';
             break;
           }
-
           if (token) {
-            argsArray.push(str);
+            if (/\S/.test(str) && str !== '') {
+              argsArray.push(str);
+            }
             str = '';
+            token = false;
           }
+
           str += i;
-          token = false;
           break;
       }
     }

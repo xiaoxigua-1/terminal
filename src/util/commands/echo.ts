@@ -9,7 +9,7 @@ export default class EchoCommand extends Command {
 
   async* run(args: string[], path: string) {
     yield {
-      output: `${args.join(' ')}\n`,
+      output: `${args.join(' ')}`,
       path,
       error: false,
     };

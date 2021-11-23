@@ -84,7 +84,7 @@ export function rm(
   if (endNode?.type === 'Folder') {
     if (d) {
       if ((endNode as Folder).nodes.length !== 0) {
-        return f ? '' : `rm: cannot remove '${pathString}': Directory not empty\n`;
+        return f ? '' : `rm: cannot remove '${pathString}': Directory not empty`;
       }
 
       const { nodes } = node;
@@ -104,7 +104,7 @@ export function rm(
       return 'asd';
     }
 
-    return `rm: '${pathString}' is a directory\n`;
+    return `rm: '${pathString}' is a directory`;
   }
 
   if (endNode?.type === 'File') {

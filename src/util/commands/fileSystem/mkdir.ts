@@ -33,20 +33,20 @@ export default class MkdirCommand extends Command {
           fileTree.nodes = mkdirNodes;
           if (this._verbose) {
             yield {
-              output: `created directory: '${inputPath}'\n`,
+              output: `created directory: '${inputPath}'`,
               path,
               error: false,
             };
           }
         } else if (mkdirNodes === 'no') {
           yield {
-            output: `mkdir: can't create directory '${inputPath}': No such file or directory \n`,
+            output: `mkdir: can't create directory '${inputPath}': No such file or directory `,
             path,
             error: true,
           };
         } else {
           yield {
-            output: `mkdir: can't create directory '${inputPath}': File exists\n`,
+            output: `mkdir: can't create directory '${inputPath}': File exists`,
             path,
             error: true,
           };

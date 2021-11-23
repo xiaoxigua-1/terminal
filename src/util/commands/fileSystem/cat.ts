@@ -18,13 +18,13 @@ export default class CatCommand extends Command {
 
         if (file.fileType === 'text') {
           yield {
-            output: `${(file as TextFile).text}\n`,
+            output: `${(file as TextFile).text}`,
             path,
             error: true,
           };
         } else {
           yield {
-            output: '對不起我的技術無法讀取二進位檔 QQ\n',
+            output: '對不起我的技術無法讀取二進位檔 QQ',
             path,
             error: true,
           };

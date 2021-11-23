@@ -13,6 +13,8 @@ export default class Node {
 
   private _args: string[];
 
+  protected output = true;
+
   constructor(args: string[]) {
     this._args = args;
   }
@@ -41,11 +43,13 @@ export default class Node {
       let commandReturnInfo = await info.next();
 
       while (!commandReturnInfo.done) {
-        yield {
-          output: commandReturnInfo.value.output,
-          path: commandReturnInfo.value.path,
-          error: commandReturnInfo.value.error,
-        };
+        if (this.output) {
+          yield {
+            output: commandReturnInfo.value.output,
+            path: commandReturnInfo.value.path,
+            error: commandReturnInfo.value.error,
+          };
+        }
 
         this._left.path = commandReturnInfo.value.path;
         this._left.error = commandReturnInfo.value.error;
@@ -55,7 +59,7 @@ export default class Node {
       }
     } else {
       yield {
-        output: `\nCommand  '${commandName}'  is  not  found\n\n`,
+        output: `\nCommand  '${commandName}'  is  not  found\n`,
         error: true,
         path,
       };
@@ -79,5 +83,9 @@ export default class Node {
 
   public get args(): string[] {
     return this._args;
+  }
+
+  public set args(args: string[]) {
+    this._args = args;
   }
 }
