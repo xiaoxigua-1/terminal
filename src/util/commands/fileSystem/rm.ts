@@ -14,17 +14,17 @@ export default class RmCommand extends Command {
   }
 
   setValue() {
-    this._r = this._commandParser.option('recursive')
+    this._r = this._optionsParser.option('recursive')
       .alias('-r', '-R')
       .help('Remove directories and their contents recursively.')
       .tag()
       .value as boolean;
-    this._d = this._commandParser.option('dir')
+    this._d = this._optionsParser.option('dir')
       .alias('-d')
       .help('Remove empty directories.')
       .tag()
       .value as boolean;
-    this._f = this._commandParser.option('force')
+    this._f = this._optionsParser.option('force')
       .alias('-f')
       .tag()
       .help('Ignore nonexistant files, and never prompt before removing.')

@@ -15,9 +15,9 @@ export default class PwdCommand extends Command {
   }
 
   setValue() {
-    this._valueName = this._commandParser.option('name', '-').value as string[];
-    this._iname = this._commandParser.option('iname', '-').value as string[];
-    this._fileType = this._commandParser.option('type', '-').value as string[];
+    this._valueName = this._optionsParser.option('name', '-').value as string[];
+    this._iname = this._optionsParser.option('iname', '-').value as string[];
+    this._fileType = this._optionsParser.option('type', '-').value as string[];
   }
 
   async* run(args: string[], path: string) {

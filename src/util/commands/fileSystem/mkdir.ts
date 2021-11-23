@@ -12,8 +12,8 @@ export default class MkdirCommand extends Command {
   }
 
   setValue(_args: string[]) {
-    this._parents = this._commandParser.option('parents').alias('-p').tag().value as boolean;
-    this._verbose = this._commandParser.option('verbose').alias('-v').tag().value as boolean;
+    this._parents = this._optionsParser.option('parents').alias('-p').tag().value as boolean;
+    this._verbose = this._optionsParser.option('verbose').alias('-v').tag().value as boolean;
   }
 
   async* run(args: string[], path: string) {
