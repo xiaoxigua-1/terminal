@@ -6,29 +6,29 @@ export interface CommandLeftInfo {
   path: string;
   error: boolean;
 }
-export default abstract class Node {
-  private _right: Node;
-
+export default class Node {
   private _left!: CommandLeftInfo;
+
+  public right!: Node;
 
   private _args: string[];
 
-  constructor(left: Node, right: Node, args: string[]) {
-    this._right = right;
+  constructor(args: string[]) {
     this._args = args;
   }
 
   async* run(path: string, _commandManager: CommandManager):
     AsyncGenerator<CommandReturnInfo, void, CommandReturnInfo> {
     yield {
+      output: '',
       path,
-      output: this._args.join(' '),
       error: false,
     };
   }
 
   async* init(path: string, commandManager: CommandManager) {
     const commandName = this.args[0];
+    this.args.splice(0, 1);
     const seatchNode = commandManager.commands.find((command) => command.name === commandName);
     this._left = {
       path,
@@ -61,10 +61,15 @@ export default abstract class Node {
 
       this._left.error = true;
     }
-  }
 
-  public get right(): Node {
-    return this._right;
+    const info = this.run(this._left.path, commandManager);
+    let commandInfo = await info.next();
+
+    while (!commandInfo.done) {
+      yield commandInfo.value;
+      // eslint-disable-next-line no-await-in-loop
+      commandInfo = await info.next();
+    }
   }
 
   public get left(): CommandLeftInfo {

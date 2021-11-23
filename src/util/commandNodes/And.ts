@@ -2,12 +2,13 @@ import Node from './Node';
 import CommandManager from '../CommandManage';
 
 export default class AndNode extends Node {
-  constructor(right: Node, left: Node, args: string[]) {
-    super(left, right, args);
+  constructor(right: Node, args: string[]) {
+    super(args);
+    this.right = right;
   }
 
   async* run(path: string, commandManager: CommandManager) {
-    const right = this.right.run(this.left.path, commandManager);
+    const right = this.right.init(this.left.path, commandManager);
     let commandReturnInfo = await right.next();
 
     while (!commandReturnInfo.done) {

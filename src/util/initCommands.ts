@@ -14,6 +14,8 @@ import VimCommand from './commands/vim';
 import FindCommand from './commands/fileSystem/find';
 import TouchCommand from './commands/fileSystem/touch';
 import RmCommand from './commands/fileSystem/rm';
+import HelpCommand from './commands/help';
+import CommandParser from './CommandParser';
 
 export default function initCommands(
   commandsManager: CommandsManager,
@@ -34,7 +36,8 @@ export default function initCommands(
     new FindCommand(),
     new TouchCommand(),
     new RmCommand(),
+    new HelpCommand(),
   ];
-
+  CommandParser.parser(['a', '&&', 'b', '&&', 'c']);
   commands.map((value) => commandsManager.addCommand(value));
 }

@@ -1,15 +1,13 @@
 import Command from '../Command';
 
-export default class EchoCommand extends Command {
-  private value: string[] = [];
-
+export default class HelpCommand extends Command {
   constructor() {
-    super('echo', '[args ...]');
+    super('help', '[options...]');
   }
 
   async* run(args: string[], path: string) {
     yield {
-      output: `${args.join(' ')}\n`,
+      output: this._commandManager.helpCommand(args),
       path,
       error: false,
     };

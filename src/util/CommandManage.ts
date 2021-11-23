@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Command from './Command';
 import Help from '../components/help';
+import CommandParser from './CommandParser';
 import Console, { ConsoleProp } from '../components/console';
 
 class CommandManager {
@@ -64,55 +65,33 @@ class CommandManager {
   }
 
   async runCommand(args: string, inputPath: string) {
-    const cloneConsole = [...this._console];
+    let cloneConsole = [...this._console];
     cloneConsole.push(Console({
       userInput: args,
       path: inputPath,
       user: this._user,
     }));
+    this._setConsole([...cloneConsole]);
+
     if (/^\s+$/.test(args) || args === '') {
       return;
     }
 
     const argsArray = this.commandHandler(args);
-    const name = argsArray[0];
-    const searchCommand = this._commands.find((command) => command.name === name);
+    const abstractSyntaxTree = CommandParser.parser(argsArray);
+    const info = abstractSyntaxTree.init(inputPath, this);
+    let commandInfo = await info.next();
 
-    argsArray.splice(0, 1);
-
-    if (name === 'help') {
-      cloneConsole.push(
-        this.helpCommand(argsArray),
-      );
-
-      this._setConsole(cloneConsole);
-      return;
-    }
-
-    if (searchCommand === undefined) {
-      cloneConsole.push(`\nCommand  '${name}'  is  not  found\n\n`);
-    } else {
-      const commandReturnInfo = searchCommand.init(argsArray, inputPath, this);
-      // eslint-disable-next-line no-restricted-syntax
-      let info = await commandReturnInfo.next();
-
-      while (!info.done) {
-        if (!this._clear) {
-          cloneConsole.push(info.value.output);
-
-          this._setConsole([...cloneConsole]);
-          this._setPath(info.value.path);
-        } else {
-          this._clear = false;
-          return;
-        }
-
-        // eslint-disable-next-line no-await-in-loop
-        info = await commandReturnInfo.next();
+    while (!commandInfo.done) {
+      cloneConsole.push(commandInfo.value.output);
+      if (this._clear) {
+        cloneConsole = [];
+        this._clear = false;
       }
+      this._setConsole([...cloneConsole]);
+      // eslint-disable-next-line no-await-in-loop
+      commandInfo = await info.next();
     }
-
-    this._setConsole(cloneConsole);
   }
 
   helpCommand(args: string[]): JSX.Element | string {
