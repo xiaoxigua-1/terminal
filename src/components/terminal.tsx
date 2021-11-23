@@ -150,7 +150,7 @@ function Terminal(): JSX.Element {
       />
       <div className="z-10">
         <span className="text-green-600 break-all">
-          xyz-studio@
+          xiaoxigua@
           {user}
           :
         </span>

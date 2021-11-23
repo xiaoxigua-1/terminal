@@ -16,7 +16,7 @@ function Console({
   return (
     <div>
       <span className="text-green-600 break-all">
-        xyz-studio@
+        xiaoxigua@
         {user}
         :
       </span>
