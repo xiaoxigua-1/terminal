@@ -1,4 +1,4 @@
-import CommandsManager from './commandManage';
+import CommandsManager from './CommandManage';
 import InfoCommand from './commands/info';
 import ExitCommand from './commands/exit';
 import CurlCommand from './commands/curl';

@@ -7,7 +7,7 @@ import {
 } from 'react';
 import Console from './console';
 import initCommands from '../util/initCommands';
-import CommandManager from '../util/commandManage';
+import CommandManager from '../util/CommandManage';
 
 const commandManager = new CommandManager();
 /**

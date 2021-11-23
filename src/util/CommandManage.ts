@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Command from './Command';
-import NotFound from '../components/notFound';
 import Help from '../components/help';
 import Console, { ConsoleProp } from '../components/console';
 
@@ -91,7 +90,7 @@ class CommandManager {
     }
 
     if (searchCommand === undefined) {
-      cloneConsole.push(NotFound(name));
+      cloneConsole.push(`\nCommand  '${name}'  is  not  found\n\n`);
     } else {
       const commandReturnInfo = searchCommand.init(argsArray, inputPath, this);
       // eslint-disable-next-line no-restricted-syntax
@@ -125,7 +124,7 @@ class CommandManager {
 
     const searchCommand = this._commands.find((command) => command.name === commandName);
 
-    if (searchCommand === undefined) return NotFound(commandName);
+    if (searchCommand === undefined) return `\nCommand  '${commandName}'  is  not  found\n\n`;
 
     return searchCommand.help();
   }

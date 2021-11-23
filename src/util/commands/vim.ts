@@ -1,5 +1,4 @@
 import Command from '../Command';
-import Vim from '../../components/vim';
 
 export default class ClearCommand extends Command {
   constructor() {
@@ -10,7 +9,7 @@ export default class ClearCommand extends Command {
     // clear console
 
     yield {
-      output: Vim('a', () => true),
+      output: '',
       path,
       error: false,
     };

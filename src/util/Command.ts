@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 import { CommandReturnInfo } from './data/CommandReturnInfo';
 import OptionsParser from './OptionsParser';
-import CommandManager from './commandManage';
+import CommandManager from './CommandManage';
 
 interface CommandSetValue {
   setValue: (_args: string[]) => void;
