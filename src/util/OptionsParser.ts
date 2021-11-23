@@ -1,6 +1,6 @@
 import ComandOption from './CommandOption';
 
-export default class CommandParser {
+export default class OptionsParser {
   private _commandOptions: ComandOption[];
 
   private _args: string[] = [];

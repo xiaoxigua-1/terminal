@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import { CommandReturnInfo } from './data/CommandReturnInfo';
-import CommandParser from './CommandParser';
+import OptionsParser from './OptionsParser';
 import CommandManager from './commandManage';
 
 interface CommandSetValue {
@@ -14,7 +14,7 @@ export default abstract class Command implements CommandSetValue {
 
   protected _commandManager!: CommandManager;
 
-  protected _commandParser = new CommandParser();
+  protected _optionsParser = new OptionsParser();
 
   constructor(name: string, info: string) {
     this._info = info;
@@ -43,13 +43,13 @@ export default abstract class Command implements CommandSetValue {
     commandManager: CommandManager,
   ): AsyncGenerator<CommandReturnInfo> {
     this._commandManager = commandManager;
-    this._commandParser.args = args;
+    this._optionsParser.args = args;
     this.setValue(args);
 
-    const help = this._commandParser.option('help').alias('-h').tag().value;
+    const help = this._optionsParser.option('help').alias('-h').tag().value;
     const notUsedOptions = args.filter(
       (arg, index) => (
-        this._commandParser.used.find((used) => used.includes(index)) === undefined && /^-+.+$/.test(arg)
+        this._optionsParser.used.find((used) => used.includes(index)) === undefined && /^-+.+$/.test(arg)
       ),
     );
 
@@ -65,13 +65,13 @@ export default abstract class Command implements CommandSetValue {
 
     if (help || notUsedOptions.length) {
       const helpText = `Usage: ${this._name} ${this._info}\n${
-        this._commandParser.commandOptions.map((value) => (
+        this._optionsParser.commandOptions.map((value) => (
           value.alias.length ? '      '
             : `  ${value.helpData.aliass.join(', ')}, `
             + `${value.helpData.name} ${value.helpData.type} ${value.helpData.help}`
         )).join('\n')}`;
 
-      this._commandParser.clearCommandOptions();
+      this._optionsParser.clearCommandOptions();
 
       yield {
         output: helpText,
@@ -86,7 +86,7 @@ export default abstract class Command implements CommandSetValue {
       (arg) => (!/^-+.+$/.test(arg)),
     ), inputPath);
 
-    this._commandParser.clearCommandOptions();
+    this._optionsParser.clearCommandOptions();
 
     let nexCommandInfo = await commandReturnInfo.next();
     while (!nexCommandInfo.done) {

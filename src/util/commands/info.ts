@@ -7,7 +7,7 @@ export default class InfoCommand extends Command {
 
   async* run(args: string[], path: string) {
     yield {
-      output: `hi this is ${this.name}`,
+      output: '1\t12\t123\t1234\t\n12345\t123456\t',
       path,
       error: false,
     };
