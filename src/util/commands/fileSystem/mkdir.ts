@@ -17,7 +17,6 @@ export default class MkdirCommand extends Command {
   }
 
   async* run(args: string[], path: string) {
-    let outputText = '';
     // eslint-disable-next-line no-restricted-syntax
     for (const inputPath of args) {
       // eslint-disable-next-line no-restricted-syntax
@@ -33,20 +32,26 @@ export default class MkdirCommand extends Command {
         if (mkdirNodes !== 'no' && mkdirNodes !== null) {
           fileTree.nodes = mkdirNodes;
           if (this._verbose) {
-            outputText += `created directory: '${inputPath}'\n`;
+            yield {
+              output: `created directory: '${inputPath}'\n`,
+              path,
+              error: false,
+            };
           }
         } else if (mkdirNodes === 'no') {
-          outputText += `mkdir: can't create directory '${inputPath}': No such file or directory \n`;
+          yield {
+            output: `mkdir: can't create directory '${inputPath}': No such file or directory \n`,
+            path,
+            error: true,
+          };
         } else {
-          outputText += `mkdir: can't create directory '${inputPath}': File exists\n`;
+          yield {
+            output: `mkdir: can't create directory '${inputPath}': File exists\n`,
+            path,
+            error: true,
+          };
         }
       }
     }
-
-    yield {
-      output: outputText,
-      path,
-      error: false,
-    };
   }
 }

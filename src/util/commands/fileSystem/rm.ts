@@ -37,16 +37,18 @@ export default class RmCommand extends Command {
       const rmPath = pathParse(path, inputPath)?.path.map((p) => p.name);
 
       if (rmPath) {
+        const outputText = rm(rmPath, inputPath, this._r, this._d, this._f);
+
         yield {
-          output: rm(rmPath, inputPath, this._r, this._d, this._f),
+          output: outputText,
           path,
-          error: false,
+          error: outputText !== '',
         };
       } else if (!this._f) {
         yield {
           output: `rm: can't remove '${inputPath}': No such file or directory\n`,
           path,
-          error: false,
+          error: true,
         };
       }
     }

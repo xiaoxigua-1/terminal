@@ -9,8 +9,6 @@ export default class CatCommand extends Command {
   }
 
   async* run(args: string[], path: string) {
-    let text = '';
-
     // eslint-disable-next-line no-restricted-syntax
     for (const i of args) {
       const pathData = pathParse(path, i);
@@ -19,19 +17,25 @@ export default class CatCommand extends Command {
         const file = pathData?.path[pathData?.path.length - 1] as File;
 
         if (file.fileType === 'text') {
-          text += `${(file as TextFile).text}\n`;
+          yield {
+            output: `${(file as TextFile).text}\n`,
+            path,
+            error: true,
+          };
         } else {
-          text += '對不起我的技術無法讀取二進位檔 QQ\n';
+          yield {
+            output: '對不起我的技術無法讀取二進位檔 QQ\n',
+            path,
+            error: true,
+          };
         }
       } else {
-        text += `cat: read error: Is ${i} directory`;
+        yield {
+          output: `cat: read error: Is ${i} directory`,
+          path,
+          error: true,
+        };
       }
     }
-
-    yield {
-      output: text,
-      path,
-      error: false,
-    };
   }
 }

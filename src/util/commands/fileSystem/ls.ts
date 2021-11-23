@@ -1,7 +1,6 @@
 import Command from '../../Command';
 import Folder from './node/folder';
 import pathParse from './pathParser';
-import ColorText from '../../../components/colorText';
 
 export default class LsCommand extends Command {
   constructor() {
@@ -23,7 +22,7 @@ export default class LsCommand extends Command {
         // eslint-disable-next-line no-restricted-syntax
         for (const node of nodes) {
           yield {
-            output: ColorText(`${node.name}\n`, (node.type === 'File' ? '' : '#12488B')),
+            output: node.name,
             path,
             error: false,
           };
@@ -32,7 +31,7 @@ export default class LsCommand extends Command {
         yield {
           output: `ls: ${i}: No such file or directory`,
           path,
-          error: false,
+          error: true,
         };
       }
     }
