@@ -22,15 +22,13 @@ export default class CommandParser {
 
       endIndex += 1;
     }
-    console.log(nodes);
+
     let node = nodes[nodes.length - 1];
 
     for (let i = nodes.length - 2; i >= 0; i -= 1) {
       nodes[i].right = node;
       node = nodes[i];
     }
-
-    console.log(node);
 
     return node;
   }

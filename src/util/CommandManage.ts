@@ -78,6 +78,7 @@ class CommandManager {
     }
 
     const argsArray = this.commandHandler(args);
+    console.log(argsArray);
     const abstractSyntaxTree = CommandParser.parser(argsArray);
     const info = abstractSyntaxTree.init(inputPath, this);
     let commandInfo = await info.next();
@@ -152,7 +153,6 @@ class CommandManager {
         case '&':
           if (!colon && !backslash) {
             if (!token) {
-              argsArray.push(str);
               str = i;
               token = true;
             } else {
