@@ -10,7 +10,6 @@ export default class PipingNode extends Node {
 
   async* run(path: string, commandManager: CommandManager) {
     if (!this.left.error) {
-      console.log([...this.right.args, ...this.left.output]);
       this.right.args = [...this.right.args, ...this.left.output];
       const right = this.right.init(this.left.path, commandManager);
       let commandReturnInfo = await right.next();
