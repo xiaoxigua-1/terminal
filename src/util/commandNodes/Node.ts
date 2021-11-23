@@ -48,6 +48,7 @@ export default class Node {
         };
 
         this._left.path = commandReturnInfo.value.path;
+        this._left.error = commandReturnInfo.value.error;
         this._left.output.push(commandReturnInfo.value.output.toString());
         // eslint-disable-next-line no-await-in-loop
         commandReturnInfo = await info.next();

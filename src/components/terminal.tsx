@@ -27,6 +27,7 @@ function Terminal(): JSX.Element {
     start: 0,
   });
   const [hint, setHint] = useState(false);
+  const [control, setControl] = useState(false);
 
   useEffect(() => {
     const app = window;
@@ -89,8 +90,17 @@ function Terminal(): JSX.Element {
           setHint(false);
           select();
         }}
+        onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === 'Control' && control) setControl(false);
+        }}
         onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
           (async () => {
+            if (e.key === 'Control') setControl(true);
+            if (control && e.key === 'c') {
+              setConsoleList([...consoleList, Console({ userInput: `${userInputString}^C`, path, user })]);
+              setUserInputString('');
+            }
+
             if (e.key === 'Enter') {
               if (!userInputLog.includes(userInputString) && /\s/.test(userInputString)) {
                 setUserInputLog([userInputString, ...userInputLog]);

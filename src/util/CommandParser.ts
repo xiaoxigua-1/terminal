@@ -1,5 +1,6 @@
 import Node from './commandNodes/Node';
 import AndNode from './commandNodes/And';
+import OrNode from './commandNodes/Or';
 
 export default class CommandParser {
   static parser(args: string[]) {
@@ -11,6 +12,10 @@ export default class CommandParser {
       switch (args[endIndex]) {
         case '&&':
           nodes.push(new AndNode(new Node(args), args.slice(startIndex, endIndex)));
+          startIndex = endIndex + 1;
+          break;
+        case '||':
+          nodes.push(new OrNode(new Node(args), args.slice(startIndex, endIndex)));
           startIndex = endIndex + 1;
           break;
         default:
