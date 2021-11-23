@@ -15,11 +15,20 @@ export default class RmCommand extends Command {
 
   setValue() {
     this._r = this._commandParser.option('recursive')
-      .alias('-r', '-rf').tag().value as boolean;
+      .alias('-r', '-R')
+      .help('Remove directories and their contents recursively.')
+      .tag()
+      .value as boolean;
     this._d = this._commandParser.option('dir')
-      .alias('-d', '-df').tag().value as boolean;
+      .alias('-d')
+      .help('Remove empty directories.')
+      .tag()
+      .value as boolean;
     this._f = this._commandParser.option('force')
-      .alias('-f', '-rf', '-df').tag().value as boolean;
+      .alias('-f')
+      .tag()
+      .help('Ignore nonexistant files, and never prompt before removing.')
+      .value as boolean;
   }
 
   async* run(args: string[], path: string) {

@@ -93,7 +93,7 @@ class CommandManager {
     if (searchCommand === undefined) {
       cloneConsole.push(NotFound(name));
     } else {
-      const commandReturnInfo = await searchCommand.init(argsArray, inputPath, this);
+      const commandReturnInfo = searchCommand.init(argsArray, inputPath, this);
       // eslint-disable-next-line no-restricted-syntax
       let info = await commandReturnInfo.next();
 

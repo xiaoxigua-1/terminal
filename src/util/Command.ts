@@ -45,6 +45,7 @@ export default abstract class Command implements CommandSetValue {
     this._commandManager = commandManager;
     this._commandParser.args = args;
     this.setValue(args);
+
     const help = this._commandParser.option('help').alias('-h').tag().value;
     const notUsedOptions = args.filter(
       (arg, index) => (
@@ -65,7 +66,9 @@ export default abstract class Command implements CommandSetValue {
     if (help || notUsedOptions.length) {
       const helpText = `Usage: ${this._name} ${this._info}\n${
         this._commandParser.commandOptions.map((value) => (
-          `\u00a0\u00a0\u00a0\u00a0${value.helpData.name} ${value.helpData.type} ${value.helpData.help}`
+          value.alias.length ? '      '
+            : `  ${value.helpData.aliass.join(', ')}, `
+            + `${value.helpData.name} ${value.helpData.type} ${value.helpData.help}`
         )).join('\n')}`;
 
       this._commandParser.clearCommandOptions();
@@ -75,12 +78,14 @@ export default abstract class Command implements CommandSetValue {
         path: inputPath,
         error: false,
       };
+
       return;
     }
 
-    const commandReturnInfo = await this.run(args.filter(
+    const commandReturnInfo = this.run(args.filter(
       (arg) => (!/^-+.+$/.test(arg)),
     ), inputPath);
+
     this._commandParser.clearCommandOptions();
 
     let nexCommandInfo = await commandReturnInfo.next();
