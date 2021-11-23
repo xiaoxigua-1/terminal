@@ -22,7 +22,7 @@ export default class LsCommand extends Command {
         // eslint-disable-next-line no-restricted-syntax
         for (const node of nodes) {
           yield {
-            output: node.name,
+            output: `${node.name}\n`,
             path,
             error: false,
           };
