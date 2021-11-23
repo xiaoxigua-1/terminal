@@ -91,6 +91,7 @@ class CommandManager {
         this._clear = false;
       }
       this._setConsole([...cloneConsole]);
+      this._setPath(commandInfo.value.path);
       // eslint-disable-next-line no-await-in-loop
       commandInfo = await info.next();
     }
