@@ -12,7 +12,7 @@ export default class TouchCommand extends Command {
     for (const file of args) {
       const filePath = pathParse(path, file, true)?.path.map((node) => node.name);
       if (filePath) {
-        const nodes = make(filePath.slice(1, filePath.length), tree.nodes, 0, false, this._commandManager.user, 'text', '');
+        const nodes = make(filePath.slice(1, filePath.length), tree.nodes, 0, false, this._commandManager.user, 'File', '');
 
         if (nodes !== 'no' && nodes !== null) {
           tree.nodes = nodes;

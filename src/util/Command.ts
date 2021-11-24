@@ -33,7 +33,7 @@ export default abstract class Command implements CommandSetValue {
 
   help(): string | JSX.Element {
     return `${this._name}: ${this._info.split('\n').map(
-      (value, index) => (index !== 0 ? `\u00a0\u00a0\u00a0\u00a0${value}` : value),
+      (value, index) => (index !== 0 ? `    ${value}` : value),
     ).join('\n')}`;
   }
 

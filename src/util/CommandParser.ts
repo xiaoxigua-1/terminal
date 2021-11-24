@@ -2,6 +2,7 @@ import Node from './commandNodes/Node';
 import AndNode from './commandNodes/And';
 import OrNode from './commandNodes/Or';
 import PipingNode from './commandNodes/Piping';
+import WriteFileNode from './commandNodes/WriteFile';
 
 export default class CommandParser {
   static parser(args: string[]) {
@@ -21,6 +22,11 @@ export default class CommandParser {
           break;
         case '|':
           nodes.push(new PipingNode(new Node(args), args.slice(startIndex, endIndex)));
+          startIndex = endIndex + 1;
+          break;
+        case '>>':
+          nodes.push(new WriteFileNode(new Node(args), args.slice(startIndex, endIndex)));
+
           startIndex = endIndex + 1;
           break;
         default:

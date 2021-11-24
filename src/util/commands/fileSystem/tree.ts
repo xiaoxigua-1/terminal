@@ -1,7 +1,6 @@
 import Folder from './node/folder';
 import TextFile from './node/textFile';
 import Node from './data/node';
-import { FileType } from './data/fileType';
 
 const fileTree = new Folder('', [
   new Folder('home', [
@@ -20,18 +19,19 @@ export function make(
   index: number,
   parents = false,
   user: string,
-  type: FileType | 'folder' = 'folder',
+  type: 'File' | 'Folder' = 'Folder',
   content = '',
 ): Node[] | null | 'no' {
   const findNode = nodes.find(
-    (node) => node.name === path[index] && node.type === 'Folder',
+    (node) => (node.name === path[index]
+      && node.type === ((index === path.length - 1) ? type : 'Folder')),
   ) as Folder | undefined;
 
   if (findNode === undefined) {
     if (index === path.length - 1) {
-      if (type === 'folder') {
+      if (type === 'Folder') {
         nodes.push(new Folder(path[index], [], user));
-      } else if (type === 'text') {
+      } else if (type === 'File') {
         nodes.push(new TextFile(path[index], content, user));
       }
     } else if (parents) {
