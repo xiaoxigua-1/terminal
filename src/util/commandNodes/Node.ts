@@ -30,7 +30,6 @@ export default class Node {
 
   async* init(path: string, commandManager: CommandManager) {
     const commandName = this.args[0];
-    this.args.splice(0, 1);
     const seatchNode = commandManager.commands.find((command) => command.name === commandName);
     this._left = {
       path,
@@ -39,7 +38,7 @@ export default class Node {
     };
 
     if (seatchNode) {
-      const info = seatchNode.init(this.args, path, commandManager);
+      const info = seatchNode.init(this.args.slice(1, this.args.length), path, commandManager);
       let commandReturnInfo = await info.next();
 
       while (!commandReturnInfo.done) {
@@ -79,6 +78,10 @@ export default class Node {
 
   public get left(): CommandLeftInfo {
     return this._left;
+  }
+
+  public set left(value: CommandLeftInfo) {
+    this._left = value;
   }
 
   public get args(): string[] {

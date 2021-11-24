@@ -18,6 +18,8 @@ export default class WriteFileNode extends Node {
   }
 
   async* run(path: string, commandManager: CommandManager): AsyncGenerator<CommandReturnInfo> {
+    if (this.left.error) return;
+
     const filePath = this.right.args[0];
     const outputPath = pathParse(path, filePath, true) as PathData;
     const outputPathStrArray = outputPath.path.map((p) => p.name);
@@ -66,10 +68,31 @@ export default class WriteFileNode extends Node {
       }
     }
 
-    yield {
-      output: '',
+    this.right.args = [...this.right.args, ...this.left.output];
+    const right = this.right.right.init(this.left.path, commandManager);
+    let commandReturnInfo = await right.next();
+
+    while (!commandReturnInfo.done) {
+      yield commandReturnInfo.value;
+      // eslint-disable-next-line no-await-in-loop
+      commandReturnInfo = await right.next();
+    }
+  }
+
+  async* init(path: string, commandManager: CommandManager) {
+    this.left = {
       path,
+      output: [],
       error: false,
     };
+
+    const info = this.run(path, commandManager);
+    let commandInfo = await info.next();
+
+    while (!commandInfo.done) {
+      yield commandInfo.value;
+      // eslint-disable-next-line no-await-in-loop
+      commandInfo = await info.next();
+    }
   }
 }

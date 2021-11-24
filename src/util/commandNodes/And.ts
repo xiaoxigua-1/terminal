@@ -8,6 +8,8 @@ export default class AndNode extends Node {
   }
 
   async* run(path: string, commandManager: CommandManager) {
+    if (this.left.error) return;
+
     const right = this.right.init(this.left.path, commandManager);
     let commandReturnInfo = await right.next();
 
