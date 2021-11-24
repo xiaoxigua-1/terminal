@@ -26,7 +26,10 @@ export default class CommandParser {
           break;
         case '>>':
           nodes.push(new WriteFileNode(new Node(args), args.slice(startIndex, endIndex)));
-
+          startIndex = endIndex + 1;
+          break;
+        case '>':
+          nodes.push(new WriteFileNode(new Node(args), args.slice(startIndex, endIndex), true));
           startIndex = endIndex + 1;
           break;
         default:

@@ -53,7 +53,7 @@ export default class WriteFileNode extends Node {
       ) as TextFile;
 
       if (this._overwrite) {
-        endNode.text = '';
+        endNode.text = this.left.output.join('\n');
       } else {
         endNode.text += `\n${this.left.output.join('\n')}`;
       }
