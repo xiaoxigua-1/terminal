@@ -20,6 +20,7 @@ import CommandParser from './CommandParser';
 export default function initCommands(
   commandsManager: CommandsManager,
 ) {
+  // load commands
   const commands = [
     new InfoCommand(),
     new ExitCommand(),
@@ -38,6 +39,7 @@ export default function initCommands(
     new RmCommand(),
     new HelpCommand(),
   ];
+
   CommandParser.parser(['a', '&&', 'b', '&&', 'c']);
   commands.map((value) => commandsManager.addCommand(value));
 }

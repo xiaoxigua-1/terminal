@@ -7,7 +7,7 @@ export default class InfoCommand extends Command {
 
   async* run(args: string[], path: string) {
     yield {
-      output: '1\t12\t123\t1234\t\n12345\t123456\t',
+      output: 'My terminal version: 1.0.0',
       path,
       error: false,
     };

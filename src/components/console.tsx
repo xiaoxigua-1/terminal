@@ -24,7 +24,7 @@ function Console({
         {path}
       </span>
       <span className="text-gray-100">$</span>
-      <span className="text-white pl-2 whitespace-pre-wrap break-all">
+      <span className="pl-2 text-white break-all whitespace-pre-wrap">
         {userInput}
       </span>
       {userInput !== '' ? <br /> : null}
