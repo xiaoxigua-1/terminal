@@ -12,6 +12,14 @@ export default class CatCommand extends Command {
     // eslint-disable-next-line no-restricted-syntax
     for (const i of args) {
       const pathData = pathParse(path, i);
+      if (!pathData) {
+        yield {
+          output: `cat: ${i}: No such file`,
+          path,
+          error: true,
+        };
+        return;
+      }
 
       if (pathData?.type === 'File') {
         const file = pathData?.path[pathData?.path.length - 1] as File;

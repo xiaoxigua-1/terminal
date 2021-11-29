@@ -1,3 +1,4 @@
+import axios from 'axios';
 import CommandsManager from './CommandManage';
 import InfoCommand from './commands/info';
 import ExitCommand from './commands/exit';
@@ -15,7 +16,8 @@ import FindCommand from './commands/fileSystem/find';
 import TouchCommand from './commands/fileSystem/touch';
 import RmCommand from './commands/fileSystem/rm';
 import HelpCommand from './commands/help';
-import CommandParser from './CommandParser';
+import { Project } from './data/project';
+import fileTree, { make } from './commands/fileSystem/tree';
 
 export default function initCommands(
   commandsManager: CommandsManager,
@@ -40,6 +42,31 @@ export default function initCommands(
     new HelpCommand(),
   ];
 
-  CommandParser.parser(['a', '&&', 'b', '&&', 'c']);
+  axios.get<Project[]>('https://api.github.com/users/xiaoxigua-1/repos')
+    .then((response) => {
+      const { data } = response;
+      // eslint-disable-next-line no-restricted-syntax
+      for (const project of data) {
+        // eslint-disable-next-line camelcase
+        const {
+          name,
+          // eslint-disable-next-line camelcase
+          full_name,
+          // eslint-disable-next-line camelcase
+          html_url,
+          // eslint-disable-next-line camelcase
+          stargazers_count,
+          fork,
+        } = project;
+
+        if (!fork) {
+          // eslint-disable-next-line camelcase
+          const text = `repo name: ${full_name}\nURL:${html_url}\nStars: ${stargazers_count}`;
+          // eslint-disable-next-line camelcase
+          make(['home', 'xiaoxigua', 'project', name], fileTree.nodes, 0, false, commandsManager.user, 'File', text);
+        }
+      }
+    });
+
   commands.map((value) => commandsManager.addCommand(value));
 }
