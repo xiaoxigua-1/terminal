@@ -1,13 +1,3 @@
-# Termianl
+# Terminal
 
-這是一個網頁版的終端機，我們打算加入許多終端機中可以使用的指令到我們的網頁版終端機中。
-
-## 指令列表
-
-打勾代表已製作完成
-
-- [x] help
-- [x] exit
-- [ ] info
-- [x] echo
-- [ ] curl
+A terminal on the website
